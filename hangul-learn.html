@@ -17,181 +17,224 @@
   --done: #2d6a4f;
   --native: #1a4a6b;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--paper); color: var(--ink); font-family: 'DM Mono', monospace; min-height: 100vh; overflow-x: hidden; }
-body::before { content: ''; position: fixed; inset: 0; background-image: repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(180,160,120,.12) 27px,rgba(180,160,120,.12) 28px); pointer-events: none; z-index: 0; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--paper); color:var(--ink); font-family:'DM Mono',monospace; min-height:100vh; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(180,160,120,.12) 27px,rgba(180,160,120,.12) 28px); pointer-events:none; z-index:0; }
 
-/* HEADER */
-header { position: sticky; top: 0; z-index: 100; background: var(--ink); color: var(--paper); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--accent); }
-.logo { display: flex; align-items: baseline; gap: 12px; }
-.logo-kr { font-family: 'Noto Serif KR', serif; font-size: 1.6rem; font-weight: 700; color: var(--accent); letter-spacing: 2px; }
-.logo-en { font-family: 'Playfair Display', serif; font-size: .85rem; font-style: italic; color: var(--light-muted); }
-.progress-summary { font-size: .7rem; color: var(--light-muted); letter-spacing: .1em; text-transform: uppercase; }
-.progress-bar-wrap { width: 120px; height: 4px; background: rgba(255,255,255,.15); border-radius: 2px; margin-top: 4px; }
-.progress-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .5s ease; }
+header { position:sticky; top:0; z-index:100; background:var(--ink); color:var(--paper); padding:14px 32px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid var(--accent); }
+.logo { display:flex; align-items:baseline; gap:12px; }
+.logo-kr { font-family:'Noto Serif KR',serif; font-size:1.6rem; font-weight:700; color:var(--accent); letter-spacing:2px; }
+.logo-en { font-family:'Playfair Display',serif; font-size:.85rem; font-style:italic; color:var(--light-muted); }
+.progress-summary { font-size:.7rem; color:var(--light-muted); letter-spacing:.1em; text-transform:uppercase; }
+.progress-bar-wrap { width:120px; height:4px; background:rgba(255,255,255,.15); border-radius:2px; margin-top:4px; }
+.progress-bar-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .5s ease; }
 
-/* MAIN */
-main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { text-align: center; margin-bottom: 56px; }
-.hero-char { font-family: 'Noto Serif KR', serif; font-size: 6rem; font-weight: 700; color: var(--ink); line-height: 1; display: block; animation: fadeDown .8s ease both; cursor: pointer; transition: transform .15s; }
-.hero-char:hover { transform: scale(1.05); }
-.hero-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-style: italic; color: var(--ink); margin: 12px 0 6px; animation: fadeDown .8s .1s ease both; }
-.hero-sub { font-size: .72rem; color: var(--muted); letter-spacing: .2em; text-transform: uppercase; animation: fadeDown .8s .2s ease both; }
-@keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
-.section-label { font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); border-left: 3px solid var(--accent); padding-left: 10px; margin-bottom: 20px; }
+main { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:48px 24px 80px; }
+.hero { text-align:center; margin-bottom:48px; }
+.hero-char { font-family:'Noto Serif KR',serif; font-size:6rem; font-weight:700; color:var(--ink); line-height:1; display:block; cursor:pointer; transition:transform .15s; }
+.hero-char:hover { transform:scale(1.05); }
+.hero-title { font-family:'Playfair Display',serif; font-size:1.9rem; font-style:italic; color:var(--ink); margin:12px 0 6px; }
+.hero-sub { font-size:.72rem; color:var(--muted); letter-spacing:.2em; text-transform:uppercase; }
+
+/* PRACTICE BANNER */
+.practice-banner { display:flex; align-items:center; gap:14px; padding:14px 18px; margin-bottom:20px; background:rgba(192,57,43,.06); border:1px solid rgba(192,57,43,.28); border-radius:8px; cursor:pointer; transition:background .15s; }
+.practice-banner:hover { background:rgba(192,57,43,.11); }
+.practice-banner-icon { width:36px; height:36px; background:rgba(192,57,43,.15); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+.practice-banner-label { font-size:.6rem; letter-spacing:2px; color:var(--accent); text-transform:uppercase; }
+.practice-banner-sub { font-size:.75rem; color:var(--ink); margin-top:2px; }
+.practice-banner-arrow { margin-left:auto; font-size:.8rem; color:rgba(192,57,43,.5); }
+
+.section-label { font-size:.65rem; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); border-left:3px solid var(--accent); padding-left:10px; margin-bottom:20px; }
 
 /* LESSON LIST */
-.lesson-list { display: flex; flex-direction: column; margin-bottom: 48px; }
-.lesson-item { display: flex; align-items: stretch; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .15s; animation: fadeIn .5s both; }
-.lesson-item:hover { background: rgba(192,57,43,.04); }
-.lesson-item:hover .lesson-arrow { opacity: 1; transform: translateX(0); }
-@keyframes fadeIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
-.lesson-item:nth-child(1){animation-delay:.1s} .lesson-item:nth-child(2){animation-delay:.15s}
-.lesson-item:nth-child(3){animation-delay:.2s}  .lesson-item:nth-child(4){animation-delay:.25s}
-.lesson-item:nth-child(5){animation-delay:.3s}  .lesson-item:nth-child(6){animation-delay:.35s}
-.lesson-item:nth-child(7){animation-delay:.4s}  .lesson-item:nth-child(8){animation-delay:.45s}
-.lesson-num { width: 54px; display: flex; align-items: center; justify-content: center; font-size: .65rem; color: var(--light-muted); flex-shrink: 0; border-right: 1px solid var(--border); padding: 20px 0; }
-.lesson-num.done { color: var(--done); }
-.lesson-body { flex: 1; padding: 20px 20px 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.lesson-info { flex: 1; }
-.lesson-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--ink); margin-bottom: 3px; }
-.lesson-kr { font-family: 'Noto Sans KR', sans-serif; font-size: .75rem; color: var(--muted); font-weight: 300; }
-.lesson-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.lesson-tag { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; }
-.tag-todo { background: var(--cream); color: var(--muted); border: 1px solid var(--border); }
-.tag-done { background: rgba(45,106,79,.1); color: var(--done); border: 1px solid rgba(45,106,79,.3); }
-.tag-active { background: rgba(192,57,43,.1); color: var(--accent); border: 1px solid rgba(192,57,43,.3); }
-.quiz-badge { font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; background: rgba(184,134,11,.12); color: #7a5800; border: 1px solid rgba(184,134,11,.3); cursor: pointer; transition: background .15s; }
-.quiz-badge:hover { background: rgba(184,134,11,.25); }
-.lesson-arrow { font-size: .8rem; color: var(--accent); margin-left: 8px; opacity: 0; transform: translateX(-4px); transition: opacity .2s, transform .2s; }
+.lesson-list { display:flex; flex-direction:column; margin-bottom:48px; }
+.lesson-item { display:flex; align-items:stretch; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
+.lesson-item:hover { background:rgba(192,57,43,.04); }
+.lesson-num { width:54px; display:flex; align-items:center; justify-content:center; font-size:.65rem; color:var(--light-muted); flex-shrink:0; border-right:1px solid var(--border); padding:20px 0; }
+.lesson-num.done { color:var(--done); }
+.lesson-body { flex:1; padding:16px 16px 16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.lesson-info { flex:1; min-width:0; }
+.lesson-title { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--ink); margin-bottom:3px; }
+.lesson-kr { font-family:'Noto Sans KR',sans-serif; font-size:.75rem; color:var(--muted); font-weight:300; }
+.mastery-bar-wrap { display:flex; align-items:center; gap:6px; margin-top:6px; }
+.mastery-bar { display:flex; height:4px; border-radius:2px; overflow:hidden; flex:1; }
+.mastery-bar-count { font-size:.6rem; color:var(--light-muted); flex-shrink:0; }
+.lesson-meta { display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0; }
+.lesson-tag { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; border-radius:2px; }
+.tag-todo   { background:var(--cream); color:var(--muted); border:1px solid var(--border); }
+.tag-done   { background:rgba(45,106,79,.1); color:var(--done); border:1px solid rgba(45,106,79,.3); }
+.tag-active { background:rgba(192,57,43,.1); color:var(--accent); border:1px solid rgba(192,57,43,.3); }
+.quiz-badge { font-size:.58rem; letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:2px; background:rgba(184,134,11,.12); color:#7a5800; border:1px solid rgba(184,134,11,.3); cursor:pointer; transition:background .15s; }
+.quiz-badge:hover { background:rgba(184,134,11,.25); }
 
 /* MODAL */
-.overlay { display: none; position: fixed; inset: 0; background: rgba(26,18,8,.75); z-index: 200; align-items: flex-end; justify-content: center; }
-.overlay.active { display: flex; animation: fadeOv .25s ease; }
-@keyframes fadeOv { from{opacity:0} to{opacity:1} }
-.modal { background: var(--paper); width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; border-radius: 12px 12px 0 0; padding: 32px 28px 48px; animation: slideUp .3s ease; position: relative; }
-@keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
-.modal-close { position: absolute; top: 20px; right: 20px; background: none; border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: border-color .15s, color .15s; }
-.modal-close:hover { border-color: var(--accent); color: var(--accent); }
-.modal-num { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-.modal-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-.modal-kr { font-family: 'Noto Sans KR', sans-serif; font-size: .85rem; color: var(--muted); margin-bottom: 20px; }
-.modal-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
-.modal-tab { padding: 10px 20px; font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color .15s, border-color .15s; }
-.modal-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-.content-section h3 { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
-
-/* CHAR GRID */
-.char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px,1fr)); gap: 10px; margin-bottom: 20px; }
-.char-card { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 8px 10px; text-align: center; cursor: pointer; transition: border-color .15s, transform .15s, box-shadow .15s; position: relative; }
-.char-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.09); }
-.char-card.playing { border-color: var(--native); background: rgba(26,74,107,.05); }
-.char-card.playing .char { color: var(--native); }
-.char-card.native-ok .audio-src-dot { background: var(--native); }
-.char { font-family: 'Noto Serif KR', serif; font-size: 1.8rem; font-weight: 700; color: var(--ink); display: block; line-height: 1.2; transition: color .15s; }
-.romanized { font-size: .65rem; color: var(--muted); letter-spacing: .05em; margin-top: 4px; display: block; }
-.example { font-family: 'Noto Sans KR', sans-serif; font-size: .6rem; color: var(--light-muted); margin-top: 2px; display: block; }
-.audio-src-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--light-muted); position: absolute; top: 6px; right: 6px; transition: background .3s; }
-
-.lesson-note { background: rgba(192,57,43,.05); border-left: 3px solid var(--accent); padding: 12px 16px; font-size: .8rem; color: var(--ink); line-height: 1.7; border-radius: 0 4px 4px 0; margin-bottom: 20px; }
-.btn-row { display: flex; gap: 10px; margin-top: 20px; }
-.btn-complete { flex: 1; padding: 14px; background: var(--ink); color: var(--paper); border: none; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
-.btn-complete:hover { background: var(--accent); }
-.btn-complete.done-btn { background: var(--done); pointer-events: none; }
-.btn-quiz-launch { padding: 14px 20px; background: var(--cream); color: var(--ink); border: 1px solid var(--border); border-radius: 4px; font-family: 'DM Mono', monospace; font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; transition: background .15s; white-space: nowrap; }
-.btn-quiz-launch:hover { background: #e8dfc8; }
-
-/* AUDIO SOURCE LEGEND */
-.audio-legend { display: flex; align-items: center; gap: 16px; font-size: .6rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
-.legend-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
-.legend-native { background: var(--native); }
-.legend-tts { background: var(--light-muted); }
-
-/* PAGE FOOTER */
-.page-quote { text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
-.page-quote .kr { font-family: 'Noto Serif KR', serif; font-size: 1.2rem; color: var(--ink); display: block; margin-bottom: 6px; }
-.page-quote .en { font-size: .7rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.overlay { display:none; position:fixed; inset:0; background:rgba(26,18,8,.75); z-index:200; align-items:flex-end; justify-content:center; }
+.overlay.active { display:flex; }
+.modal { background:var(--paper); width:100%; max-width:720px; max-height:88vh; overflow-y:auto; border-radius:12px 12px 0 0; padding:32px 28px 48px; position:relative; }
+.modal-close { position:absolute; top:20px; right:20px; background:none; border:1px solid var(--border); color:var(--muted); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:border-color .15s,color .15s; }
+.modal-close:hover { border-color:var(--accent); color:var(--accent); }
+.modal-num { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.modal-title { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:700; color:var(--ink); margin-bottom:4px; }
+.modal-kr { font-family:'Noto Sans KR',sans-serif; font-size:.85rem; color:var(--muted); margin-bottom:20px; }
+.modal-tabs { display:flex; border-bottom:2px solid var(--border); margin-bottom:24px; }
+.modal-tab { padding:10px 20px; font-size:.68rem; letter-spacing:.15em; text-transform:uppercase; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; margin-bottom:-2px; transition:color .15s,border-color .15s; }
+.modal-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+.content-section h3 { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+.lesson-note { background:rgba(192,57,43,.05); border-left:3px solid var(--accent); padding:12px 16px; font-size:.8rem; color:var(--ink); line-height:1.7; border-radius:0 4px 4px 0; margin-bottom:20px; }
+.btn-row { display:flex; gap:10px; margin-top:20px; }
+.btn-complete { flex:1; padding:14px; background:var(--ink); color:var(--paper); border:none; border-radius:4px; font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; cursor:pointer; transition:background .2s; }
+.btn-complete:hover { background:var(--accent); }
+.btn-complete.done-btn { background:var(--done); pointer-events:none; }
+.btn-quiz-launch { padding:14px 20px; background:var(--cream); color:var(--ink); border:1px solid var(--border); border-radius:4px; font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; cursor:pointer; transition:background .15s; white-space:nowrap; }
+.btn-quiz-launch:hover { background:#e8dfc8; }
+.audio-legend { display:flex; align-items:center; gap:16px; font-size:.6rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+.legend-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:4px; vertical-align:middle; }
+.legend-native { background:var(--native); }
+.legend-tts { background:var(--light-muted); }
+.char-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(86px,1fr)); gap:10px; margin-bottom:20px; }
+.char-card { background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:12px 8px 10px; text-align:center; cursor:pointer; transition:border-color .15s,transform .15s,box-shadow .15s; position:relative; }
+.char-card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 4px 14px rgba(0,0,0,.09); }
+.char-card.playing { border-color:var(--native); background:rgba(26,74,107,.05); }
+.char-card.native-ok .audio-src-dot { background:var(--native); }
+.char { font-family:'Noto Serif KR',serif; font-size:1.8rem; font-weight:700; color:var(--ink); display:block; line-height:1.2; }
+.romanized { font-size:.65rem; color:var(--muted); letter-spacing:.05em; margin-top:4px; display:block; }
+.example { font-family:'Noto Sans KR',sans-serif; font-size:.6rem; color:var(--light-muted); margin-top:2px; display:block; }
+.audio-src-dot { width:5px; height:5px; border-radius:50%; background:var(--light-muted); position:absolute; top:6px; right:6px; }
+.page-quote { text-align:center; margin-top:48px; padding-top:32px; border-top:1px solid var(--border); }
+.page-quote .kr { font-family:'Noto Serif KR',serif; font-size:1.2rem; color:var(--ink); display:block; margin-bottom:6px; }
+.page-quote .en { font-size:.7rem; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
 
 /* QUIZ OVERLAY */
-.quiz-overlay { display: none; position: fixed; inset: 0; background: #151008; z-index: 300; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
-.quiz-overlay.active { display: flex; animation: fadeOv .3s ease; }
-.quiz-header { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; border-bottom: 1px solid rgba(255,255,255,.07); }
-.quiz-header-left { display: flex; flex-direction: column; gap: 8px; }
-.quiz-lesson-label { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); }
-.quiz-dots { display: flex; gap: 5px; flex-wrap: wrap; max-width: 200px; }
-.quiz-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.12); transition: background .3s; }
-.quiz-dot.seen { background: rgba(255,255,255,.3); }
-.quiz-dot.correct { background: #4caf7d; }
-.quiz-dot.wrong { background: #c0392b; }
-.quiz-progress-text { font-size: .65rem; letter-spacing: .1em; color: rgba(255,255,255,.35); }
-.quiz-exit { background: none; border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.35); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: .9rem; display: flex; align-items: center; justify-content: center; transition: border-color .15s, color .15s; }
-.quiz-exit:hover { border-color: var(--accent); color: var(--accent); }
-.quiz-mode-toggle { display: flex; border: 1px solid rgba(255,255,255,.1); border-radius: 6px; overflow: hidden; margin-bottom: 28px; }
-.qm-btn { flex: 1; padding: 9px 16px; background: none; color: rgba(255,255,255,.3); border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: .63rem; letter-spacing: .12em; text-transform: uppercase; transition: background .15s, color .15s; }
-.qm-btn + .qm-btn { border-left: 1px solid rgba(255,255,255,.1); }
-.qm-btn.active { background: rgba(255,255,255,.09); color: #fff; }
+.quiz-overlay { display:none; position:fixed; inset:0; background:#151008; z-index:300; flex-direction:column; align-items:center; justify-content:center; padding:24px; }
+.quiz-overlay.active { display:flex; }
+.quiz-header { position:absolute; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:18px 28px; border-bottom:1px solid rgba(255,255,255,.07); }
+.quiz-header-left { display:flex; flex-direction:column; gap:8px; }
+.quiz-lesson-label { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.3); }
+.quiz-dots { display:flex; gap:5px; flex-wrap:wrap; max-width:200px; }
+.quiz-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.12); transition:background .3s; }
+.quiz-dot.seen { background:rgba(255,255,255,.3); }
+.quiz-dot.correct { background:#4caf7d; }
+.quiz-dot.wrong { background:#c0392b; }
+.quiz-progress-text { font-size:.65rem; letter-spacing:.1em; color:rgba(255,255,255,.35); }
+.quiz-exit { background:none; border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.35); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:.9rem; display:flex; align-items:center; justify-content:center; transition:border-color .15s,color .15s; }
+.quiz-exit:hover { border-color:var(--accent); color:var(--accent); }
+.quiz-mode-toggle { display:flex; border:1px solid rgba(255,255,255,.1); border-radius:6px; overflow:hidden; margin-bottom:28px; }
+.qm-btn { flex:1; padding:9px 16px; background:none; color:rgba(255,255,255,.3); border:none; cursor:pointer; font-family:'DM Mono',monospace; font-size:.63rem; letter-spacing:.12em; text-transform:uppercase; transition:background .15s,color .15s; }
+.qm-btn+.qm-btn { border-left:1px solid rgba(255,255,255,.1); }
+.qm-btn.active { background:rgba(255,255,255,.09); color:#fff; }
+.quiz-stage { display:flex; flex-direction:column; align-items:center; width:100%; max-width:400px; }
+.flashcard { width:100%; aspect-ratio:3/2; position:relative; cursor:pointer; perspective:1000px; margin-bottom:24px; }
+.flashcard-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,.2,.2,1); }
+.flashcard.flipped .flashcard-inner { transform:rotateY(180deg); }
+.card-face { position:absolute; inset:0; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.card-front { background:#1e1810; border:1px solid rgba(255,255,255,.07); }
+.card-back  { background:#142014; border:1px solid rgba(76,175,125,.25); transform:rotateY(180deg); }
+.card-back.missed { background:#201010; border-color:rgba(192,57,43,.25); }
+.card-hint { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.18); margin-bottom:14px; }
+.card-big-char { font-family:'Noto Serif KR',serif; font-size:5rem; font-weight:700; color:#fff; line-height:1; }
+.card-audio-row { display:flex; gap:8px; align-items:center; margin-top:14px; }
+.card-native-btn { background:rgba(26,74,107,.6); border:1px solid rgba(100,160,210,.4); color:rgba(160,210,255,.9); padding:6px 14px; border-radius:20px; font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.08em; cursor:pointer; transition:all .15s; }
+.card-native-btn:hover,.card-native-btn.speaking { background:rgba(26,74,107,.9); border-color:rgba(100,160,210,.7); color:#fff; }
+.card-tts-btn { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.3); padding:6px 10px; border-radius:20px; font-family:'DM Mono',monospace; font-size:.58rem; cursor:pointer; transition:all .15s; }
+.card-tts-btn:hover { border-color:rgba(255,255,255,.25); color:rgba(255,255,255,.6); }
+.card-result-glyph { font-size:1.8rem; margin-bottom:6px; }
+.card-romanized { font-size:1.6rem; color:#fff; letter-spacing:.04em; margin-bottom:6px; }
+.card-example-text { font-family:'Noto Sans KR',sans-serif; font-size:.8rem; color:rgba(255,255,255,.4); }
+.verdict-row { display:flex; gap:10px; width:100%; }
+.verdict-btn { flex:1; padding:13px; border-radius:7px; font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border:none; }
+.verdict-missed { background:rgba(192,57,43,.2); color:#e07a72; }
+.verdict-got-it  { background:rgba(76,175,125,.2); color:#7ddcaa; }
+.verdict-missed:hover,.verdict-got-it:hover { opacity:.78; }
+.btn-advance { width:100%; padding:13px; border-radius:7px; background:rgba(255,255,255,.07); color:rgba(255,255,255,.55); font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border:none; transition:background .15s; }
+.btn-advance:hover { background:rgba(255,255,255,.13); }
+.btn-advance.primary { background:var(--accent); color:#fff; }
+.choice-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; margin-bottom:16px; }
+.choice-btn { padding:15px 10px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); color:rgba(255,255,255,.7); font-family:'DM Mono',monospace; font-size:.88rem; cursor:pointer; transition:background .12s,border-color .12s,color .12s; text-align:center; }
+.choice-btn:hover:not(:disabled) { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.28); color:#fff; }
+.choice-btn.is-correct { background:rgba(76,175,125,.18); border-color:#4caf7d; color:#7ddcaa; }
+.choice-btn.is-wrong   { background:rgba(192,57,43,.18); border-color:var(--accent); color:#e07a72; }
+.choice-btn:disabled { cursor:default; }
+.quiz-result { display:none; text-align:center; }
+.result-stars { font-size:2.2rem; letter-spacing:8px; margin-bottom:16px; }
+.result-score { font-family:'Noto Serif KR',serif; font-size:5rem; color:#fff; font-weight:700; line-height:1; }
+.result-pct   { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.3); margin:8px 0 28px; }
+.result-msg   { font-family:'Playfair Display',serif; font-style:italic; font-size:1.15rem; color:rgba(255,255,255,.65); margin-bottom:32px; }
+.result-actions { display:flex; gap:12px; justify-content:center; }
+.result-btn { padding:12px 24px; border-radius:6px; font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; border:none; }
+.result-retry { background:rgba(255,255,255,.08); color:rgba(255,255,255,.7); }
+.result-close { background:var(--accent); color:#fff; }
 
-/* FLASHCARD */
-.quiz-stage { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
-.flashcard { width: 100%; aspect-ratio: 3/2; position: relative; cursor: pointer; perspective: 1000px; margin-bottom: 24px; }
-.flashcard-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.4,.2,.2,1); }
-.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-.card-face { position: absolute; inset: 0; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.card-front { background: #1e1810; border: 1px solid rgba(255,255,255,.07); }
-.card-back  { background: #142014; border: 1px solid rgba(76,175,125,.25); transform: rotateY(180deg); }
-.card-back.missed { background: #201010; border-color: rgba(192,57,43,.25); }
-.card-hint { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.18); margin-bottom: 14px; }
-.card-big-char { font-family: 'Noto Serif KR', serif; font-size: 5rem; font-weight: 700; color: #fff; line-height: 1; }
+/* PRACTICE OVERLAY */
+.prac-overlay { display:none; position:fixed; inset:0; background:#151008; z-index:400; flex-direction:column; }
+.prac-overlay.active { display:flex; }
+.prac-header { display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,.07); flex-shrink:0; }
+.prac-exit { background:none; border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.4); width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:.85rem; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:border-color .15s; }
+.prac-exit:hover { border-color:var(--accent); color:var(--accent); }
+.prac-title { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.35); flex-shrink:0; }
+.prac-prog-wrap { flex:1; height:3px; background:rgba(255,255,255,.1); border-radius:2px; }
+.prac-prog-bar { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
+.prac-prog-text { font-family:'DM Mono',monospace; font-size:.6rem; color:rgba(255,255,255,.25); flex-shrink:0; }
+.prac-body { flex:1; overflow-y:auto; display:flex; flex-direction:column; }
 
-/* Native audio button — prominent */
-.card-audio-row { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
-.card-native-btn { background: rgba(26,74,107,.6); border: 1px solid rgba(100,160,210,.4); color: rgba(160,210,255,.9); padding: 6px 14px; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: .62rem; letter-spacing: .08em; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px; }
-.card-native-btn:hover, .card-native-btn.speaking { background: rgba(26,74,107,.9); border-color: rgba(100,160,210,.7); color: #fff; }
-.card-tts-btn { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.3); padding: 6px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: .58rem; letter-spacing: .06em; cursor: pointer; transition: all .15s; }
-.card-tts-btn:hover { border-color: rgba(255,255,255,.25); color: rgba(255,255,255,.6); }
+.prac-flash { flex:1; display:flex; flex-direction:column; padding:24px; max-width:480px; margin:0 auto; width:100%; }
+.prac-card { flex:1; min-height:200px; background:#1e1810; border:1px solid rgba(255,255,255,.07); border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; margin-bottom:16px; transition:background .2s; }
+.prac-card.revealed { background:#142014; border-color:rgba(76,175,125,.2); cursor:default; }
+.prac-card-hint { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.18); margin-bottom:14px; }
+.prac-card-char { font-family:'Noto Serif KR',serif; font-size:5rem; font-weight:700; color:#fff; line-height:1; }
+.prac-card-roman { font-family:'DM Mono',monospace; font-size:1.6rem; color:#fff; margin-top:12px; }
+.prac-card-ex { font-family:'Noto Sans KR',sans-serif; font-size:.8rem; color:rgba(255,255,255,.4); margin-top:6px; }
+.prac-audio-row { display:flex; gap:8px; margin-top:14px; }
 
-.card-result-glyph { font-size: 1.8rem; margin-bottom: 6px; }
-.card-romanized { font-size: 1.6rem; color: #fff; letter-spacing: .04em; margin-bottom: 6px; }
-.card-example-text { font-family: 'Noto Sans KR', sans-serif; font-size: .8rem; color: rgba(255,255,255,.4); }
-.verdict-row { display: flex; gap: 10px; width: 100%; }
-.verdict-btn { flex: 1; padding: 13px; border-radius: 7px; font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border: none; transition: opacity .15s; }
-.verdict-missed { background: rgba(192,57,43,.2); color: #e07a72; }
-.verdict-got-it  { background: rgba(76,175,125,.2); color: #7ddcaa; }
-.verdict-missed:hover, .verdict-got-it:hover { opacity: .78; }
-.btn-advance { width: 100%; padding: 13px; border-radius: 7px; background: rgba(255,255,255,.07); color: rgba(255,255,255,.55); font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border: none; transition: background .15s; }
-.btn-advance:hover { background: rgba(255,255,255,.13); }
-.btn-advance.primary { background: var(--accent); color: #fff; }
-.btn-advance.primary:hover { opacity: .88; }
-.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 16px; }
-.choice-btn { padding: 15px 10px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); color: rgba(255,255,255,.7); font-family: 'DM Mono', monospace; font-size: .88rem; cursor: pointer; transition: background .12s, border-color .12s, color .12s; text-align: center; }
-.choice-btn:hover:not(:disabled) { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.28); color: #fff; }
-.choice-btn.is-correct { background: rgba(76,175,125,.18); border-color: #4caf7d; color: #7ddcaa; }
-.choice-btn.is-wrong   { background: rgba(192,57,43,.18); border-color: var(--accent); color: #e07a72; }
-.choice-btn:disabled { cursor: default; }
+.prac-canvas-panel { flex:1; display:flex; flex-direction:column; }
+.prac-canvas-top { background:#1a1208; padding:14px 20px; display:flex; gap:16px; align-items:center; border-bottom:1px solid rgba(255,255,255,.06); flex-shrink:0; }
+.anim-canvas-wrap canvas { border-radius:6px; display:block; }
+.prac-canvas-info { flex:1; }
+.prac-canvas-char { font-family:'Noto Serif KR',serif; font-size:2.2rem; font-weight:700; color:#fff; line-height:1; }
+.prac-canvas-roman { font-family:'DM Mono',monospace; font-size:.9rem; color:rgba(255,255,255,.55); margin-top:4px; }
+.prac-canvas-ex { font-family:'Noto Sans KR',sans-serif; font-size:.65rem; color:rgba(255,255,255,.3); margin-top:3px; }
+.prac-mode-bar { padding:7px 20px; background:#0f0c06; display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.prac-mode-indicator { width:3px; height:13px; background:var(--accent); border-radius:1px; }
+.prac-mode-label { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:2px; color:var(--accent); }
+.prac-mode-instr { font-family:'DM Mono',monospace; font-size:.58rem; color:rgba(255,255,255,.28); }
+.draw-canvas-wrap { flex:1; position:relative; min-height:200px; }
+#drawCanvas { position:absolute; inset:0; width:100%; height:100%; touch-action:none; cursor:crosshair; display:block; }
+.prac-canvas-btns { padding:10px 16px; display:flex; align-items:center; gap:8px; background:var(--cream); border-top:1px solid var(--border); flex-shrink:0; }
+.draw-btn-clear { background:none; border:none; font-family:'DM Mono',monospace; font-size:.72rem; color:var(--muted); cursor:pointer; padding:6px 10px; }
+.draw-btn-skip { background:none; border:none; font-family:'DM Mono',monospace; font-size:.72rem; color:var(--light-muted); cursor:pointer; padding:6px 10px; margin-left:auto; }
+.draw-btn-submit { background:var(--ink); color:var(--paper); border:none; border-radius:4px; font-family:'DM Mono',monospace; font-size:.72rem; padding:8px 20px; cursor:pointer; transition:opacity .15s; }
+.draw-btn-submit:disabled { opacity:.35; cursor:default; }
+.draw-btn-submit:not(:disabled):hover { opacity:.82; }
 
-/* Native audio panel in choice mode */
-.choice-audio-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+.prac-score-panel { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; background:var(--paper); }
+.score-pct-text { font-family:'Playfair Display',serif; font-size:5rem; font-weight:700; line-height:1; }
+.score-bar-wrap { width:100%; max-width:320px; height:10px; background:var(--cream); border-radius:5px; overflow:hidden; margin:16px 0; }
+.score-bar-fill { height:100%; border-radius:5px; width:0%; transition:width .8s ease; }
+.score-msg-text { font-family:'Playfair Display',serif; font-size:1.2rem; font-style:italic; color:var(--ink); margin-bottom:32px; text-align:center; }
+.score-actions { display:flex; gap:12px; }
+.score-btn { padding:12px 24px; border-radius:4px; font-family:'DM Mono',monospace; font-size:.72rem; cursor:pointer; border:none; }
+.score-btn-retry { background:var(--cream); color:var(--ink); border:1px solid var(--border); }
+.score-btn-next { background:var(--ink); color:var(--paper); }
 
-/* RESULT */
-.quiz-result { display: none; text-align: center; animation: fadeDown .4s ease both; }
-.result-stars { font-size: 2.2rem; letter-spacing: 8px; margin-bottom: 16px; }
-.result-score { font-family: 'Noto Serif KR', serif; font-size: 5rem; color: #fff; font-weight: 700; line-height: 1; }
-.result-pct   { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); margin: 8px 0 28px; }
-.result-msg   { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; color: rgba(255,255,255,.65); margin-bottom: 32px; }
-.result-actions { display: flex; gap: 12px; justify-content: center; }
-.result-btn { padding: 12px 24px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; border: none; }
-.result-retry { background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); }
-.result-retry:hover { background: rgba(255,255,255,.14); }
-.result-close { background: var(--accent); color: #fff; }
-.result-close:hover { opacity: .88; }
+.prac-done-panel { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; }
+.prac-done-icon { font-size:3rem; margin-bottom:16px; }
+.prac-done-title { font-family:'Playfair Display',serif; font-size:1.8rem; font-style:italic; color:#fff; margin-bottom:8px; }
+.prac-done-sub { font-family:'DM Mono',monospace; font-size:.72rem; color:rgba(255,255,255,.35); margin-bottom:28px; }
+.mastery-summary-box { width:100%; max-width:320px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:8px; padding:20px; margin-bottom:28px; }
+.mastery-summary-title { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:2px; color:rgba(255,255,255,.3); margin-bottom:12px; text-transform:uppercase; }
+.mastery-row { display:flex; align-items:center; gap:10px; padding:4px 0; }
+.mastery-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.mastery-row-label { font-family:'DM Mono',monospace; font-size:.72rem; color:rgba(255,255,255,.5); flex:1; }
+.mastery-row-count { font-family:'DM Mono',monospace; font-size:.72rem; color:rgba(255,255,255,.7); font-weight:600; }
+.prac-done-next { font-family:'DM Mono',monospace; font-size:.65rem; color:rgba(255,255,255,.25); margin-bottom:24px; }
+.prac-back-btn { background:var(--accent); color:#fff; border:none; border-radius:4px; font-family:'DM Mono',monospace; font-size:.75rem; padding:14px 32px; cursor:pointer; }
+.prac-back-btn:hover { opacity:.85; }
 
-/* TOAST */
-.tts-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 8px 18px; border-radius: 20px; font-size: .65rem; letter-spacing: .1em; opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 9999; white-space: nowrap; }
-.tts-toast.native { background: var(--native); color: #c8e8ff; }
-.tts-toast.tts    { background: var(--ink); color: rgba(255,255,255,.7); }
-.tts-toast.visible { opacity: 1; }
+.tts-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); padding:8px 18px; border-radius:20px; font-size:.65rem; letter-spacing:.1em; opacity:0; transition:opacity .3s; pointer-events:none; z-index:9999; white-space:nowrap; }
+.tts-toast.native { background:var(--native); color:#c8e8ff; }
+.tts-toast.tts    { background:var(--ink); color:rgba(255,255,255,.7); }
+.tts-toast.visible { opacity:1; }
 </style>
 </head>
 <body>
@@ -208,8 +251,9 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
   <div class="hero">
     <span class="hero-char" id="heroChar" title="Click to hear">가</span>
     <h1 class="hero-title">The Korean Alphabet</h1>
-    <p class="hero-sub">Learn to read & write in 8 lessons</p>
+    <p class="hero-sub">Learn to read &amp; write in 8 lessons</p>
   </div>
+  <div id="practiceBanner" style="display:none"></div>
   <div class="section-label">Curriculum · 교과 과정</div>
   <div class="lesson-list" id="lessonList"></div>
   <div class="page-quote">
@@ -240,8 +284,6 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
     <button class="qm-btn active" data-mode="flashcard">↩ Flashcard</button>
     <button class="qm-btn" data-mode="choice">⊞ Multiple Choice</button>
   </div>
-
-  <!-- FLASHCARD -->
   <div class="quiz-stage" id="stageFlash">
     <div class="flashcard" id="flashcard">
       <div class="flashcard-inner">
@@ -250,7 +292,7 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
           <div class="card-big-char" id="fcChar"></div>
           <div class="card-audio-row">
             <button class="card-native-btn" id="fcNativeBtn">🎙 Native</button>
-            <button class="card-tts-btn"    id="fcTtsBtn">🔊 TTS</button>
+            <button class="card-tts-btn" id="fcTtsBtn">🔊 TTS</button>
           </div>
         </div>
         <div class="card-face card-back" id="cardBack">
@@ -266,8 +308,6 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
     </div>
     <button class="btn-advance" id="fcNext" style="display:none"></button>
   </div>
-
-  <!-- CHOICE -->
   <div class="quiz-stage" id="stageChoice" style="display:none">
     <div class="flashcard" style="cursor:default">
       <div class="flashcard-inner">
@@ -276,7 +316,7 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
           <div class="card-big-char" id="chChar"></div>
           <div class="card-audio-row">
             <button class="card-native-btn" id="chNativeBtn">🎙 Native</button>
-            <button class="card-tts-btn"    id="chTtsBtn">🔊 TTS</button>
+            <button class="card-tts-btn" id="chTtsBtn">🔊 TTS</button>
           </div>
         </div>
       </div>
@@ -284,590 +324,562 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
     <div class="choice-grid" id="choiceGrid"></div>
     <button class="btn-advance primary" id="chNext" style="display:none"></button>
   </div>
-
-  <!-- RESULT -->
   <div class="quiz-result" id="quizResult">
     <div class="result-stars" id="rStars"></div>
     <div class="result-score" id="rScore"></div>
-    <div class="result-pct"   id="rPct"></div>
-    <div class="result-msg"   id="rMsg"></div>
+    <div class="result-pct" id="rPct"></div>
+    <div class="result-msg" id="rMsg"></div>
     <div class="result-actions">
       <button class="result-btn result-retry" id="retryBtn">Retry</button>
-      <button class="result-btn result-close" id="closeDoneBtn">Back to Lesson</button>
+      <button class="result-btn result-close" id="closeDoneBtn">Done</button>
     </div>
   </div>
+</div>
+
+<!-- PRACTICE OVERLAY -->
+<div class="prac-overlay" id="pracOverlay">
+  <div class="prac-header">
+    <button class="prac-exit" id="pracExit">✕</button>
+    <span class="prac-title">Daily Practice · 연습</span>
+    <div class="prac-prog-wrap"><div class="prac-prog-bar" id="pracProgBar" style="width:0%"></div></div>
+    <span class="prac-prog-text" id="pracProgText">0 / 0</span>
+  </div>
+  <div class="prac-body" id="pracBody"></div>
 </div>
 
 <div class="tts-toast" id="ttsToast"></div>
 
 <script>
-/* ============================================================
-   NATIVE AUDIO MAP
-   Wikimedia Commons Ko-*.ogg — real native Korean speakers
-   URL pattern: https://commons.wikimedia.org/wiki/Special:FilePath/Ko-WORD.ogg
-   Fallback: Web Speech API TTS
-   ============================================================ */
-
-const WM = (word) =>
-  `https://commons.wikimedia.org/wiki/Special:FilePath/Ko-${encodeURIComponent(word)}.ogg`;
-
-// Hand-verified Wikimedia Commons Korean audio files (CC-BY-SA)
-// Value = filename stem after "Ko-" (without .ogg)
-const NATIVE_MAP = {
-  // Common words with confirmed Ko-*.ogg files
-  "사랑":  "사랑",
-  "한국":  "한국",
-  "사람":  "사람",
-  "음식":  "음식",
-  "학교":  "학교",
-  "친구":  "친구",
-  "가족":  "가족",
-  "밥":    "밥",
-  "물":    "물",
-  "책":    "책",
-  "봄":    "봄",
-  "강":    "강",
-  "산":    "산",
-  "나무":  "나무",
-  "하늘":  "하늘",
-  "가방":  "가방",
-  "바다":  "바다",
-  "마음":  "마음",
-  "여자":  "여자",
-  "아이":  "아이",
-  "이름":  "이름",
-  "여행":  "여행",
-  "요리":  "요리",
-  "유리":  "유리",
-  "우유":  "우유",
-  "의사":  "의사",
-  "외국":  "외국",
-  "닭":    "닭",
-  "가":    "가",
-  "나":    "나",
-  "다":    "다",
-  "라":    "라",
-  "마":    "마",
-  "바":    "바",
-  "사":    "사",
-  "아":    "아",
-  "자":    "자",
-  "하":    "하",
-  "카":    "카",
-  "타":    "타",
-  "파":    "파",
-  "차":    "차",
+/* ================================================================
+   STROKE DATA  (ported from lib/data/stroke_data.dart)
+   Each value: array of strokes; each stroke: array of [x,y] in 0-1
+   ================================================================ */
+const JAMO_STROKES = {
+  'ㄱ':[[[.15,.30],[.35,.29],[.55,.28],[.75,.28],[.82,.28]],[[.82,.28],[.82,.42],[.82,.58],[.82,.72],[.82,.82]]],
+  'ㄴ':[[[.25,.18],[.25,.32],[.25,.50],[.25,.65],[.25,.78]],[[.25,.78],[.40,.78],[.57,.78],[.72,.78],[.82,.78]]],
+  'ㄷ':[[[.18,.22],[.38,.22],[.58,.22],[.78,.22]],[[.18,.22],[.18,.38],[.18,.55],[.18,.68],[.18,.78]],[[.18,.78],[.38,.78],[.58,.78],[.78,.78]]],
+  'ㄹ':[[[.18,.18],[.40,.18],[.62,.18],[.80,.18]],[[.80,.18],[.80,.28],[.80,.38],[.80,.42]],[[.80,.42],[.62,.42],[.44,.42],[.26,.42],[.18,.42]],[[.18,.42],[.18,.52],[.18,.62],[.18,.72],[.18,.80]],[[.18,.80],[.38,.80],[.58,.80],[.80,.80]]],
+  'ㅁ':[[[.18,.22],[.18,.38],[.18,.55],[.18,.72],[.18,.80]],[[.18,.22],[.38,.22],[.58,.22],[.78,.22]],[[.80,.22],[.80,.38],[.80,.55],[.80,.72],[.80,.80]],[[.18,.80],[.38,.80],[.58,.80],[.80,.80]]],
+  'ㅂ':[[[.22,.18],[.22,.35],[.22,.52],[.22,.68],[.22,.82]],[[.78,.18],[.78,.35],[.78,.52],[.78,.68],[.78,.82]],[[.22,.18],[.42,.18],[.62,.18],[.78,.18]],[[.22,.50],[.42,.50],[.62,.50],[.78,.50]],[[.14,.82],[.35,.82],[.55,.82],[.78,.82],[.86,.82]]],
+  'ㅅ':[[[.50,.25],[.40,.42],[.30,.58],[.20,.72],[.12,.82]],[[.50,.25],[.60,.42],[.70,.58],[.80,.72],[.88,.82]]],
+  'ㅇ':[[[.50,.18],[.65,.20],[.78,.30],[.84,.44],[.84,.58],[.78,.72],[.65,.80],[.50,.82],[.35,.80],[.22,.72],[.16,.58],[.16,.44],[.22,.30],[.35,.20],[.50,.18]]],
+  'ㅈ':[[[.18,.30],[.38,.29],[.58,.29],[.78,.30]],[[.50,.30],[.38,.46],[.26,.62],[.14,.80]],[[.50,.30],[.62,.46],[.74,.62],[.86,.80]]],
+  'ㅊ':[[[.42,.12],[.50,.14],[.58,.16]],[[.18,.32],[.38,.31],[.58,.31],[.78,.32]],[[.50,.32],[.38,.48],[.26,.64],[.14,.82]],[[.50,.32],[.62,.48],[.74,.64],[.86,.82]]],
+  'ㅋ':[[[.18,.22],[.40,.22],[.62,.22],[.80,.22]],[[.18,.50],[.40,.50],[.62,.50]],[[.80,.22],[.80,.38],[.80,.55],[.80,.72],[.80,.82]]],
+  'ㅌ':[[[.18,.18],[.40,.18],[.62,.18],[.80,.18]],[[.18,.18],[.18,.35],[.18,.52],[.18,.68],[.18,.80]],[[.18,.48],[.38,.48],[.58,.48],[.78,.48]],[[.18,.80],[.38,.80],[.58,.80],[.80,.80]]],
+  'ㅍ':[[[.12,.22],[.35,.22],[.58,.22],[.80,.22],[.88,.22]],[[.30,.22],[.30,.38],[.30,.55],[.30,.72],[.30,.82]],[[.70,.22],[.70,.38],[.70,.55],[.70,.72],[.70,.82]],[[.12,.82],[.35,.82],[.58,.82],[.80,.82],[.88,.82]]],
+  'ㅎ':[[[.42,.10],[.50,.12],[.58,.14]],[[.18,.28],[.38,.28],[.58,.28],[.78,.28]],[[.50,.40],[.65,.42],[.76,.52],[.80,.62],[.76,.74],[.65,.80],[.50,.82],[.35,.80],[.24,.74],[.20,.62],[.24,.52],[.35,.42],[.50,.40]]],
+  'ㅏ':[[[.42,.10],[.42,.28],[.42,.50],[.42,.72],[.42,.90]],[[.42,.50],[.58,.50],[.72,.50],[.88,.50]]],
+  'ㅑ':[[[.42,.10],[.42,.28],[.42,.50],[.42,.72],[.42,.90]],[[.42,.35],[.58,.35],[.72,.35],[.88,.35]],[[.42,.60],[.58,.60],[.72,.60],[.88,.60]]],
+  'ㅓ':[[[.58,.10],[.58,.28],[.58,.50],[.58,.72],[.58,.90]],[[.58,.50],[.44,.50],[.30,.50],[.12,.50]]],
+  'ㅕ':[[[.58,.10],[.58,.28],[.58,.50],[.58,.72],[.58,.90]],[[.58,.35],[.44,.35],[.30,.35],[.12,.35]],[[.58,.60],[.44,.60],[.30,.60],[.12,.60]]],
+  'ㅗ':[[[.10,.65],[.30,.65],[.50,.65],[.70,.65],[.90,.65]],[[.50,.65],[.50,.52],[.50,.38],[.50,.25],[.50,.15]]],
+  'ㅛ':[[[.30,.65],[.30,.52],[.30,.38],[.30,.25],[.30,.15]],[[.70,.65],[.70,.52],[.70,.38],[.70,.25],[.70,.15]],[[.10,.65],[.30,.65],[.50,.65],[.70,.65],[.90,.65]]],
+  'ㅜ':[[[.10,.35],[.30,.35],[.50,.35],[.70,.35],[.90,.35]],[[.50,.35],[.50,.48],[.50,.62],[.50,.75],[.50,.85]]],
+  'ㅠ':[[[.30,.35],[.30,.48],[.30,.62],[.30,.75],[.30,.82]],[[.70,.35],[.70,.48],[.70,.62],[.70,.75],[.70,.82]],[[.10,.35],[.30,.35],[.50,.35],[.70,.35],[.90,.35]]],
+  'ㅡ':[[[.10,.50],[.28,.50],[.50,.50],[.72,.50],[.90,.50]]],
+  'ㅣ':[[[.50,.10],[.50,.28],[.50,.50],[.50,.72],[.50,.90]]],
+  'ㅐ':[[[.35,.10],[.35,.28],[.35,.50],[.35,.72],[.35,.90]],[[.35,.50],[.55,.50],[.72,.50],[.82,.50]],[[.82,.10],[.82,.28],[.82,.50],[.82,.72],[.82,.90]]],
+  'ㅒ':[[[.32,.10],[.32,.28],[.32,.50],[.32,.72],[.32,.90]],[[.32,.32],[.52,.32],[.68,.32],[.78,.32]],[[.32,.58],[.52,.58],[.68,.58],[.78,.58]],[[.78,.10],[.78,.28],[.78,.50],[.78,.72],[.78,.90]]],
+  'ㅔ':[[[.65,.10],[.65,.28],[.65,.50],[.65,.72],[.65,.90]],[[.65,.50],[.48,.50],[.32,.50],[.15,.50]],[[.15,.10],[.15,.28],[.15,.50],[.15,.72],[.15,.90]]],
+  'ㅖ':[[[.65,.10],[.65,.28],[.65,.50],[.65,.72],[.65,.90]],[[.65,.32],[.48,.32],[.32,.32],[.15,.32]],[[.65,.58],[.48,.58],[.32,.58],[.15,.58]],[[.15,.10],[.15,.28],[.15,.50],[.15,.72],[.15,.90]]],
+  'ㅘ':[[[.05,.65],[.22,.65],[.40,.65],[.52,.65]],[[.28,.65],[.28,.50],[.28,.35],[.28,.20]],[[.65,.10],[.65,.30],[.65,.50],[.65,.70],[.65,.90]],[[.65,.50],[.75,.50],[.88,.50]]],
+  'ㅙ':[[[.05,.65],[.20,.65],[.35,.65],[.46,.65]],[[.25,.65],[.25,.50],[.25,.35],[.25,.20]],[[.58,.10],[.58,.30],[.58,.50],[.58,.70],[.58,.90]],[[.58,.50],[.68,.50],[.80,.50]],[[.88,.10],[.88,.30],[.88,.50],[.88,.70],[.88,.90]]],
+  'ㅚ':[[[.10,.65],[.32,.65],[.55,.65],[.78,.65]],[[.44,.65],[.44,.50],[.44,.35],[.44,.20]],[[.88,.10],[.88,.30],[.88,.50],[.88,.70],[.88,.90]]],
+  'ㅝ':[[[.05,.35],[.22,.35],[.40,.35],[.52,.35]],[[.28,.35],[.28,.50],[.28,.65],[.28,.80]],[[.65,.10],[.65,.30],[.65,.50],[.65,.70],[.65,.90]],[[.65,.50],[.52,.50],[.38,.50]]],
+  'ㅞ':[[[.05,.35],[.20,.35],[.35,.35],[.46,.35]],[[.25,.35],[.25,.50],[.25,.65],[.25,.78]],[[.58,.10],[.58,.30],[.58,.50],[.58,.70],[.58,.90]],[[.58,.50],[.46,.50],[.32,.50]],[[.88,.10],[.88,.30],[.88,.50],[.88,.70],[.88,.90]]],
+  'ㅟ':[[[.10,.35],[.32,.35],[.55,.35],[.78,.35]],[[.44,.35],[.44,.50],[.44,.65],[.44,.80]],[[.88,.10],[.88,.30],[.88,.50],[.88,.70],[.88,.90]]],
+  'ㅢ':[[[.10,.50],[.30,.50],[.55,.50],[.78,.50]],[[.88,.10],[.88,.30],[.88,.50],[.88,.70],[.88,.90]]],
+  'ㄲ':[[[.08,.30],[.28,.29],[.38,.28]],[[.38,.28],[.38,.42],[.38,.60],[.38,.72]],[[.48,.30],[.68,.29],[.82,.28]],[[.82,.28],[.82,.42],[.82,.60],[.82,.72]]],
+  'ㄸ':[[[.08,.22],[.25,.22],[.38,.22]],[[.08,.22],[.08,.38],[.08,.52],[.08,.62]],[[.08,.62],[.22,.62],[.38,.62]],[[.48,.22],[.65,.22],[.80,.22]],[[.48,.22],[.48,.38],[.48,.52],[.48,.62]],[[.48,.62],[.62,.62],[.80,.62]]],
+  'ㅃ':[[[.10,.18],[.10,.40],[.10,.62]],[[.30,.18],[.30,.40],[.30,.62]],[[.10,.18],[.20,.18],[.30,.18]],[[.10,.40],[.20,.40],[.30,.40]],[[.06,.62],[.18,.62],[.34,.62]],[[.50,.18],[.50,.40],[.50,.62]],[[.70,.18],[.70,.40],[.70,.62]],[[.50,.18],[.60,.18],[.70,.18]],[[.50,.40],[.60,.40],[.70,.40]],[[.46,.62],[.58,.62],[.74,.62]]],
+  'ㅆ':[[[.25,.28],[.18,.44],[.10,.62],[.06,.80]],[[.25,.28],[.32,.44],[.38,.62],[.40,.80]],[[.58,.28],[.52,.44],[.46,.62],[.42,.80]],[[.58,.28],[.65,.44],[.74,.62],[.82,.80]]],
+  'ㅉ':[[[.12,.28],[.28,.28],[.38,.28]],[[.25,.28],[.18,.48],[.10,.68]],[[.25,.28],[.32,.48],[.38,.68]],[[.52,.28],[.68,.28],[.80,.28]],[[.65,.28],[.56,.48],[.48,.68]],[[.65,.28],[.72,.48],[.82,.68]]],
 };
 
-function nativeUrl(word) {
-  const key = NATIVE_MAP[word];
-  return key ? WM(key) : null;
+const INITIALS=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const VOWELS=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+const FINALS=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const HORIZ_V=new Set(['ㅗ','ㅛ','ㅜ','ㅠ','ㅡ']);
+const COMP_V=new Set(['ㅘ','ㅙ','ㅚ','ㅝ','ㅞ','ㅟ','ㅢ']);
+
+function txS(s,xO,yO,xS,yS){return s.map(([px,py])=>[xO+px*xS,yO+py*yS]);}
+
+function decomposeSyllable(cp){
+  const idx=cp-0xAC00,li=Math.floor(idx/588),vi=Math.floor((idx%588)/28),ti=idx%28;
+  const lead=INITIALS[li],vowel=VOWELS[vi],trail=FINALS[ti]||'';
+  if(!lead||!vowel)return null;
+  const lS=JAMO_STROKES[lead],vS=JAMO_STROKES[vowel];
+  if(!lS||!vS)return null;
+  const hasT=trail!=='',isH=HORIZ_V.has(vowel)||COMP_V.has(vowel),res=[];
+  if(!hasT){
+    if(isH){lS.forEach(s=>res.push(txS(s,0,0,1,.45)));vS.forEach(s=>res.push(txS(s,0,.43,1,.57)));}
+    else{lS.forEach(s=>res.push(txS(s,0,0,.43,1)));vS.forEach(s=>res.push(txS(s,.43,0,.57,1)));}
+  }else{
+    const tS=JAMO_STROKES[trail];
+    if(isH){lS.forEach(s=>res.push(txS(s,0,0,1,.40)));vS.forEach(s=>res.push(txS(s,0,.38,1,.28)));if(tS)tS.forEach(s=>res.push(txS(s,0,.62,1,.38)));}
+    else{lS.forEach(s=>res.push(txS(s,0,0,.43,.58)));vS.forEach(s=>res.push(txS(s,.43,0,.57,1)));if(tS)tS.forEach(s=>res.push(txS(s,0,.55,.43,.45)));}
+  }
+  return res.length?res:null;
 }
 
-/* ============================================================
+function getCharStrokes(ch){
+  if(!ch)return null;
+  const cp=[...ch][0]?.codePointAt(0);if(!cp)return null;
+  if(cp>=0x3131&&cp<=0x318E)return JAMO_STROKES[ch]||null;
+  if(cp>=0xAC00&&cp<=0xD7A3)return decomposeSyllable(cp);
+  return JAMO_STROKES[ch]||null;
+}
+
+/* ================================================================
+   SM-2 MASTERY ENGINE
+   ================================================================ */
+const MASTERY_KEY='hangul-mastery-v1';
+const LVL={UNSEEN:0,SEEN:1,RECOGNIZED:2,CAN_WRITE:3};
+function mLoad(){try{return JSON.parse(localStorage.getItem(MASTERY_KEY)||'{}');}catch{return{};}}
+function mGet(id){return mLoad()[id]||{level:LVL.UNSEEN,ease:2.5,interval:1,due:new Date(0).toISOString(),reviews:0};}
+function mSave(db){localStorage.setItem(MASTERY_KEY,JSON.stringify(db));}
+function mApply(id,quality){
+  const db=mLoad(),c=db[id]||{level:LVL.UNSEEN,ease:2.5,interval:1,due:new Date(0).toISOString(),reviews:0};
+  let ni,ne;
+  if(quality<3){ni=1;ne=c.ease;}
+  else{ni=Math.max(1,Math.round(c.interval*c.ease));ne=Math.max(1.3,c.ease+0.1-(5-quality)*(0.08+(5-quality)*0.02));}
+  let nl=c.level;
+  if(quality>=4){if(c.level<=LVL.SEEN)nl=LVL.RECOGNIZED;else if(c.level===LVL.RECOGNIZED)nl=LVL.CAN_WRITE;}
+  else if(quality>=3&&c.level===LVL.UNSEEN)nl=LVL.SEEN;
+  db[id]={level:nl,ease:ne,interval:ni,due:new Date(Date.now()+ni*86400000).toISOString(),reviews:(c.reviews||0)+1};
+  mSave(db);
+}
+function mMarkSeen(id){
+  const db=mLoad();
+  if(!db[id]||db[id].level===LVL.UNSEEN){db[id]={...(db[id]||{ease:2.5,interval:1,due:new Date().toISOString(),reviews:0}),level:LVL.SEEN};mSave(db);}
+}
+function getDueIds(allCards){
+  const now=Date.now();
+  return allCards.filter(c=>{const m=mGet(c.id);return m.level!==LVL.UNSEEN&&new Date(m.due).getTime()<=now;})
+    .sort((a,b)=>new Date(mGet(a.id).due)-new Date(mGet(b.id).due)).map(c=>c.id);
+}
+function charId(ch){return[...ch].map(c=>c.codePointAt(0).toString(16).padStart(4,'0')).join('_');}
+
+/* ================================================================
    AUDIO ENGINE
-   ============================================================ */
-const toast = document.getElementById('ttsToast');
-let toastTimer;
-let currentAudio = null;
-let activeSpeakBtn = null;
-
-function showToast(text, type) {
-  clearTimeout(toastTimer);
-  toast.textContent = text;
-  toast.className = `tts-toast ${type} visible`;
-  toastTimer = setTimeout(() => toast.classList.remove('visible'), 2000);
+   ================================================================ */
+const WM=word=>`https://commons.wikimedia.org/wiki/Special:FilePath/Ko-${encodeURIComponent(word)}.ogg`;
+const NATIVE_MAP={'사랑':'사랑','한국':'한국','사람':'사람','음식':'음식','학교':'학교','친구':'친구','가족':'가족','밥':'밥','물':'물','책':'책','봄':'봄','강':'강','산':'산','하늘':'하늘','바다':'바다','마음':'마음','여행':'여행','요리':'요리','유리':'유리','우유':'우유','의사':'의사','외국':'외국','닭':'닭','가':'가','나':'나','다':'다','라':'라','마':'마','바':'바','사':'사','아':'아','자':'자','하':'하','카':'카','타':'타','파':'파','차':'차'};
+function nativeUrl(w){const k=NATIVE_MAP[w];return k?WM(k):null;}
+const toast=document.getElementById('ttsToast');
+let toastTimer,currentAudio=null,activeSpeakBtn=null;
+function showToast(text,type){clearTimeout(toastTimer);toast.textContent=text;toast.className=`tts-toast ${type} visible`;toastTimer=setTimeout(()=>toast.classList.remove('visible'),2000);}
+function stopAllAudio(){if(currentAudio){currentAudio.pause();currentAudio=null;}if(window.speechSynthesis)speechSynthesis.cancel();if(activeSpeakBtn){activeSpeakBtn.classList.remove('speaking');activeSpeakBtn=null;}}
+function playNative(w,btn,onFail){
+  const url=nativeUrl(w);if(!url){if(onFail)onFail();return;}
+  stopAllAudio();const a=new Audio(url);currentAudio=a;
+  if(btn){activeSpeakBtn=btn;btn.classList.add('speaking');}
+  a.onplay=()=>showToast('🎙 Native speaker','native');
+  a.onended=()=>{currentAudio=null;if(btn)btn.classList.remove('speaking');toast.classList.remove('visible');};
+  a.onerror=()=>{currentAudio=null;if(btn)btn.classList.remove('speaking');if(onFail)onFail();else playTTS(w,btn);};
+  a.play().catch(()=>{currentAudio=null;if(btn)btn.classList.remove('speaking');if(onFail)onFail();else playTTS(w,btn);});
 }
-
-function stopAllAudio() {
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  if (window.speechSynthesis) speechSynthesis.cancel();
-  if (activeSpeakBtn) { activeSpeakBtn.classList.remove('speaking'); activeSpeakBtn = null; }
-}
-
-function playNative(word, btn, onFail) {
-  const url = nativeUrl(word);
-  if (!url) { if (onFail) onFail(); return; }
-
-  stopAllAudio();
-  const audio = new Audio(url);
-  currentAudio = audio;
-  if (btn) { activeSpeakBtn = btn; btn.classList.add('speaking'); }
-
-  audio.onplay = () => showToast('🎙 Native speaker', 'native');
-  audio.onended = () => {
-    currentAudio = null;
-    if (btn) btn.classList.remove('speaking');
-    toast.classList.remove('visible');
-  };
-  audio.onerror = () => {
-    currentAudio = null;
-    if (btn) btn.classList.remove('speaking');
-    if (onFail) onFail();
-    else playTTS(word, btn);
-  };
-  audio.play().catch(() => {
-    currentAudio = null;
-    if (btn) btn.classList.remove('speaking');
-    if (onFail) onFail();
-    else playTTS(word, btn);
-  });
-}
-
-function playTTS(word, btn, onEnd) {
-  if (!window.speechSynthesis) return;
-  stopAllAudio();
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
-  const voices = speechSynthesis.getVoices();
-  const kr = voices.find(v => v.lang && v.lang.startsWith('ko'));
-  if (kr) u.voice = kr;
-  if (btn) { activeSpeakBtn = btn; btn.classList.add('speaking'); }
-  u.onstart = () => showToast('🔊 Text-to-speech', 'tts');
-  u.onend = u.onerror = () => {
-    if (btn) btn.classList.remove('speaking');
-    toast.classList.remove('visible');
-    if (onEnd) onEnd();
-  };
+function playTTS(w,btn){
+  if(!window.speechSynthesis)return;stopAllAudio();
+  const u=new SpeechSynthesisUtterance(w);u.lang='ko-KR';u.rate=.85;u.pitch=1;
+  const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.startsWith('ko'));if(v)u.voice=v;
+  if(btn){activeSpeakBtn=btn;btn.classList.add('speaking');}
+  u.onstart=()=>showToast('🔊 Text-to-speech','tts');
+  u.onend=u.onerror=()=>{if(btn)btn.classList.remove('speaking');toast.classList.remove('visible');};
   speechSynthesis.speak(u);
 }
+function playBest(w,btn){nativeUrl(w)?playNative(w,btn,()=>playTTS(w,btn)):playTTS(w,btn);}
+if(window.speechSynthesis){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
 
-// Try native first, fall back to TTS
-function playBest(word, btn) {
-  if (nativeUrl(word)) {
-    playNative(word, btn, () => playTTS(word, btn));
-  } else {
-    playTTS(word, btn);
-  }
-}
-
-if (window.speechSynthesis) {
-  speechSynthesis.getVoices();
-  speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-}
-
-/* ============================================================
+/* ================================================================
    DATA
-   ============================================================ */
-const HERO_CHARS = ['가','나','다','라','마','바','사','아'];
-
-const LESSONS = [
-  { num:1, title:"Basic Vowels of Hangeul", kr:"한글의 기본 모음",
-    note:"Korean has 10 basic vowels. They always combine with a consonant placeholder (ㅇ) when written alone. Vowels are either vertical or horizontal strokes.",
-    chars:[
-      {c:"아",r:"a",   ex:"아이 (child)"},
-      {c:"야",r:"ya",  ex:"야구 (baseball)"},
-      {c:"어",r:"eo",  ex:"어머니 (mother)"},
-      {c:"여",r:"yeo", ex:"여자 (woman)"},
-      {c:"오",r:"o",   ex:"오리 (duck)"},
-      {c:"요",r:"yo",  ex:"요리 (cooking)"},
-      {c:"우",r:"u",   ex:"우유 (milk)"},
-      {c:"유",r:"yu",  ex:"유리 (glass)"},
-      {c:"으",r:"eu",  ex:"으뜸 (top)"},
-      {c:"이",r:"i",   ex:"이름 (name)"},
-    ]},
-  { num:2, title:"Basic Consonants of Hangeul", kr:"한글의 기본 자음",
-    note:"14 basic consonants, each shaped after the mouth position that produces the sound. ㄱ looks like the back of the tongue blocking the throat.",
-    chars:[
-      {c:"가",r:"g/k",    ex:"가방 (bag)"},
-      {c:"나",r:"n",      ex:"나무 (tree)"},
-      {c:"다",r:"d/t",    ex:"다리 (bridge)"},
-      {c:"라",r:"r/l",    ex:"라디오 (radio)"},
-      {c:"마",r:"m",      ex:"마음 (heart)"},
-      {c:"바",r:"b/p",    ex:"바다 (sea)"},
-      {c:"사",r:"s",      ex:"사랑 (love)"},
-      {c:"아",r:"silent", ex:"아침 (morning)"},
-      {c:"자",r:"j",      ex:"자다 (sleep)"},
-      {c:"하",r:"h",      ex:"하늘 (sky)"},
-    ]},
-  { num:3, title:"More Consonants of Hangeul", kr:"더 많은 자음",
-    note:"These 4 consonants are aspirated — released with a puff of air. Korean makes the aspirated / unaspirated distinction explicit.",
-    chars:[
-      {c:"카",r:"k",  ex:"카페 (café)"},
-      {c:"타",r:"t",  ex:"타다 (ride)"},
-      {c:"파",r:"p",  ex:"파다 (dig)"},
-      {c:"차",r:"ch", ex:"차 (tea/car)"},
-    ]},
-  { num:4, title:"Compound Vowels of Hangeul", kr:"합성 모음",
-    note:"Compound vowels blend two basic vowels. 애 = 아+이, 에 = 어+이. Your mouth starts in one position and glides to another.",
-    chars:[
-      {c:"애",r:"ae",  ex:"애인 (lover)"},
-      {c:"에",r:"e",   ex:"에어컨 (AC)"},
-      {c:"얘",r:"yae", ex:"얘기 (story)"},
-      {c:"예",r:"ye",  ex:"예쁘다 (pretty)"},
-      {c:"와",r:"wa",  ex:"와인 (wine)"},
-      {c:"왜",r:"wae", ex:"왜 (why)"},
-      {c:"외",r:"oe",  ex:"외국 (foreign)"},
-      {c:"워",r:"wo",  ex:"워크 (work)"},
-      {c:"웨",r:"we",  ex:"웨딩 (wedding)"},
-      {c:"위",r:"wi",  ex:"위 (stomach)"},
-      {c:"의",r:"ui",  ex:"의사 (doctor)"},
-    ]},
-  { num:5, title:"\"Y\" in Hangeul", kr:"한글의 'Y' 소리",
-    note:"No standalone 'Y' letter — an extra stroke added to a vowel creates the Y-glide. ㅏ→ㅑ (a→ya). One stroke becomes two.",
-    chars:[
-      {c:"야",r:"ya",  ex:"야채 (vegetable)"},
-      {c:"여",r:"yeo", ex:"여행 (travel)"},
-      {c:"요",r:"yo",  ex:"요가 (yoga)"},
-      {c:"유",r:"yu",  ex:"유행 (trend)"},
-      {c:"얘",r:"yae", ex:"얘기 (talk)"},
-      {c:"예",r:"ye",  ex:"예의 (courtesy)"},
-    ]},
-  { num:6, title:"Final Consonants in Hangeul", kr:"받침",
-    note:"받침 sit at the bottom of a syllable block. Structure: (C)V(C). The final consonant subtly closes the sound.",
-    chars:[
-      {c:"닭",r:"dak",   ex:"닭 (chicken)"},
-      {c:"밥",r:"bap",   ex:"밥 (rice/meal)"},
-      {c:"책",r:"chaek", ex:"책 (book)"},
-      {c:"물",r:"mul",   ex:"물 (water)"},
-      {c:"산",r:"san",   ex:"산 (mountain)"},
-      {c:"봄",r:"bom",   ex:"봄 (spring)"},
-      {c:"강",r:"gang",  ex:"강 (river)"},
-    ]},
-  { num:7, title:"Review & Practice", kr:"복습 및 연습",
-    note:"Every syllable block: at least one consonant + one vowel, built top-left to bottom-right. Practice reading these common words.",
-    chars:[
-      {c:"한국",r:"han-guk",  ex:"Korea"},
-      {c:"사람",r:"sa-ram",   ex:"person"},
-      {c:"음식",r:"eum-sik",  ex:"food"},
-      {c:"학교",r:"hak-gyo",  ex:"school"},
-      {c:"친구",r:"chin-gu",  ex:"friend"},
-      {c:"가족",r:"ga-jok",   ex:"family"},
-    ]},
-  { num:8, title:"How to Write Hangeul", kr:"한글 쓰는 방법",
-    note:"Write top-to-bottom, left-to-right. Every character fits an imaginary square. The syllable block is the fundamental unit.",
-    chars:[
-      {c:"ㄱ",r:"g/k", ex:"← 2 strokes"},
-      {c:"ㄴ",r:"n",   ex:"← 2 strokes"},
-      {c:"ㅏ",r:"a",   ex:"← 2 strokes"},
-      {c:"ㅣ",r:"i",   ex:"← 1 stroke"},
-      {c:"가",r:"ga",  ex:"← syllable block"},
-      {c:"나",r:"na",  ex:"← syllable block"},
-    ]},
+   ================================================================ */
+const HERO_CHARS=['가','나','다','라','마','바','사','아'];
+const LESSONS=[
+  {num:1,title:'Basic Vowels of Hangeul',kr:'한글의 기본 모음',note:'Korean has 10 basic vowels. They always combine with a consonant placeholder (ㅇ) when written alone. Vowels are either vertical or horizontal strokes.',chars:[
+    {c:'아',r:'a',ex:'아이 (child)'},{c:'야',r:'ya',ex:'야구 (baseball)'},{c:'어',r:'eo',ex:'어머니 (mother)'},{c:'여',r:'yeo',ex:'여자 (woman)'},
+    {c:'오',r:'o',ex:'오리 (duck)'},{c:'요',r:'yo',ex:'요리 (cooking)'},{c:'우',r:'u',ex:'우유 (milk)'},{c:'유',r:'yu',ex:'유리 (glass)'},
+    {c:'으',r:'eu',ex:'으뜸 (top)'},{c:'이',r:'i',ex:'이름 (name)'}]},
+  {num:2,title:'Basic Consonants of Hangeul',kr:'한글의 기본 자음',note:'14 basic consonants, each shaped after the mouth position that produces the sound. ㄱ looks like the back of the tongue blocking the throat.',chars:[
+    {c:'가',r:'g/k',ex:'가방 (bag)'},{c:'나',r:'n',ex:'나무 (tree)'},{c:'다',r:'d/t',ex:'다리 (bridge)'},{c:'라',r:'r/l',ex:'라디오 (radio)'},
+    {c:'마',r:'m',ex:'마음 (heart)'},{c:'바',r:'b/p',ex:'바다 (sea)'},{c:'사',r:'s',ex:'사랑 (love)'},{c:'아',r:'silent',ex:'아침 (morning)'},
+    {c:'자',r:'j',ex:'자다 (sleep)'},{c:'하',r:'h',ex:'하늘 (sky)'}]},
+  {num:3,title:'More Consonants of Hangeul',kr:'더 많은 자음',note:'These 4 consonants are aspirated — released with a puff of air.',chars:[
+    {c:'카',r:'k',ex:'카페 (café)'},{c:'타',r:'t',ex:'타다 (ride)'},{c:'파',r:'p',ex:'파다 (dig)'},{c:'차',r:'ch',ex:'차 (tea/car)'}]},
+  {num:4,title:'Compound Vowels of Hangeul',kr:'합성 모음',note:'Compound vowels blend two basic vowels. 애 = 아+이, 에 = 어+이. Your mouth starts in one position and glides to another.',chars:[
+    {c:'애',r:'ae',ex:'애인 (lover)'},{c:'에',r:'e',ex:'에어컨 (AC)'},{c:'얘',r:'yae',ex:'얘기 (story)'},{c:'예',r:'ye',ex:'예쁘다 (pretty)'},
+    {c:'와',r:'wa',ex:'와인 (wine)'},{c:'왜',r:'wae',ex:'왜 (why)'},{c:'외',r:'oe',ex:'외국 (foreign)'},{c:'워',r:'wo',ex:'워크 (work)'},
+    {c:'웨',r:'we',ex:'웨딩 (wedding)'},{c:'위',r:'wi',ex:'위 (stomach)'},{c:'의',r:'ui',ex:'의사 (doctor)'}]},
+  {num:5,title:'"Y" in Hangeul',kr:"한글의 'Y' 소리",note:"No standalone 'Y' letter — an extra stroke added to a vowel creates the Y-glide.",chars:[
+    {c:'야',r:'ya',ex:'야채 (vegetable)'},{c:'여',r:'yeo',ex:'여행 (travel)'},{c:'요',r:'yo',ex:'요가 (yoga)'},
+    {c:'유',r:'yu',ex:'유행 (trend)'},{c:'얘',r:'yae',ex:'얘기 (talk)'},{c:'예',r:'ye',ex:'예의 (courtesy)'}]},
+  {num:6,title:'Final Consonants in Hangeul',kr:'받침',note:'받침 sit at the bottom of a syllable block. Structure: (C)V(C).',chars:[
+    {c:'닭',r:'dak',ex:'닭 (chicken)'},{c:'밥',r:'bap',ex:'밥 (rice/meal)'},{c:'책',r:'chaek',ex:'책 (book)'},
+    {c:'물',r:'mul',ex:'물 (water)'},{c:'산',r:'san',ex:'산 (mountain)'},{c:'봄',r:'bom',ex:'봄 (spring)'},{c:'강',r:'gang',ex:'강 (river)'}]},
+  {num:7,title:'Review & Practice',kr:'복습 및 연습',note:'Every syllable block: at least one consonant + one vowel, built top-left to bottom-right.',chars:[
+    {c:'한국',r:'han-guk',ex:'Korea'},{c:'사람',r:'sa-ram',ex:'person'},{c:'음식',r:'eum-sik',ex:'food'},
+    {c:'학교',r:'hak-gyo',ex:'school'},{c:'친구',r:'chin-gu',ex:'friend'},{c:'가족',r:'ga-jok',ex:'family'}]},
+  {num:8,title:'How to Write Hangeul',kr:'한글 쓰는 방법',note:'Write top-to-bottom, left-to-right. Every character fits an imaginary square.',chars:[
+    {c:'ㄱ',r:'g/k',ex:'← 2 strokes'},{c:'ㄴ',r:'n',ex:'← 2 strokes'},{c:'ㅏ',r:'a',ex:'← 2 strokes'},
+    {c:'ㅣ',r:'i',ex:'← 1 stroke'},{c:'가',r:'ga',ex:'← syllable block'},{c:'나',r:'na',ex:'← syllable block'}]},
 ];
+LESSONS.forEach(l=>l.chars.forEach(ch=>{ch.id=charId(ch.c);}));
+const ALL_CHARS=LESSONS.flatMap(l=>l.chars);
 
-const ALL_CHARS = LESSONS.flatMap(l => l.chars);
-
-/* ============================================================
+/* ================================================================
    STATE
-   ============================================================ */
-let completed = JSON.parse(localStorage.getItem('hangul-done') || '[]');
-function saveCompleted() { localStorage.setItem('hangul-done', JSON.stringify(completed)); }
-function updateProgress() {
-  const pct = Math.round(completed.length / LESSONS.length * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = `${completed.length} / ${LESSONS.length} lessons`;
-  document.getElementById('heroChar').textContent = HERO_CHARS[Math.min(completed.length, HERO_CHARS.length-1)];
+   ================================================================ */
+function getCompleted(){
+  const manual=new Set(JSON.parse(localStorage.getItem('hangul-done')||'[]'));
+  LESSONS.forEach(l=>{if(l.chars.every(ch=>mGet(ch.id).level>=LVL.RECOGNIZED))manual.add(l.num);});
+  return manual;
+}
+function saveManualComplete(num){const arr=JSON.parse(localStorage.getItem('hangul-done')||'[]');if(!arr.includes(num)){arr.push(num);localStorage.setItem('hangul-done',JSON.stringify(arr));}}
+
+function updateProgress(){
+  const c=getCompleted(),pct=Math.round(c.size/LESSONS.length*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressText').textContent=`${c.size} / ${LESSONS.length} lessons`;
+  document.getElementById('heroChar').textContent=HERO_CHARS[Math.min(c.size,HERO_CHARS.length-1)];
+}
+document.getElementById('heroChar').addEventListener('click',()=>playBest(document.getElementById('heroChar').textContent,null));
+
+/* ================================================================
+   PRACTICE BANNER
+   ================================================================ */
+function renderPracticeBanner(){
+  const due=getDueIds(ALL_CHARS),banner=document.getElementById('practiceBanner');
+  if(!due.length){banner.style.display='none';return;}
+  banner.style.display='flex';banner.className='practice-banner';
+  banner.innerHTML=`<div class="practice-banner-icon">🔥</div><div><div class="practice-banner-label">Practice · 연습</div><div class="practice-banner-sub">${due.length} card${due.length===1?'':'s'} due for review</div></div><span class="practice-banner-arrow">→</span>`;
+  banner.onclick=()=>openPractice();
 }
 
-// Hero char click
-document.getElementById('heroChar').addEventListener('click', () => {
-  const ch = document.getElementById('heroChar').textContent;
-  playBest(ch, document.getElementById('heroChar'));
-});
-
-/* ============================================================
+/* ================================================================
    LESSON LIST
-   ============================================================ */
-function renderList() {
-  const list = document.getElementById('lessonList');
-  list.innerHTML = '';
-  LESSONS.forEach((lesson, i) => {
-    const isDone = completed.includes(lesson.num);
-    const isNext = !isDone && (i===0 || completed.includes(LESSONS[i-1].num));
-    const el = document.createElement('div');
-    el.className = 'lesson-item';
-    el.innerHTML = `
-      <div class="lesson-num ${isDone?'done':''}">${isDone?'✓':String(lesson.num).padStart(2,'0')}</div>
+   ================================================================ */
+function masteryBarHTML(chars){
+  if(!chars.length)return'';
+  let u=0,s=0,r=0,w=0;
+  chars.forEach(ch=>{const l=mGet(ch.id).level;if(l===LVL.UNSEEN)u++;else if(l===LVL.SEEN)s++;else if(l===LVL.RECOGNIZED)r++;else w++;});
+  const seg=(n,col)=>n>0?`<div style="flex:${n};background:${col}"></div>`:'';
+  return`<div class="mastery-bar-wrap"><div class="mastery-bar">${seg(u,'rgba(0,0,0,.12)')}${seg(s,'#aaa')}${seg(r,'#d4a017')}${seg(w,'#2d6a4f')}</div><span class="mastery-bar-count">${w}/${chars.length}</span></div>`;
+}
+
+function renderList(){
+  const list=document.getElementById('lessonList'),completed=getCompleted();
+  list.innerHTML='';
+  LESSONS.forEach((lesson,i)=>{
+    const isDone=completed.has(lesson.num),isNext=!isDone&&(i===0||completed.has(LESSONS[i-1].num));
+    const el=document.createElement('div');el.className='lesson-item';
+    el.innerHTML=`<div class="lesson-num ${isDone?'done':''}">${isDone?'✓':String(lesson.num).padStart(2,'0')}</div>
       <div class="lesson-body">
-        <div class="lesson-info">
-          <div class="lesson-title">${lesson.title}</div>
-          <div class="lesson-kr">${lesson.kr}</div>
-        </div>
-        <div class="lesson-meta">
-          <span class="quiz-badge" data-num="${lesson.num}">Quiz ↗</span>
-          <span class="lesson-tag ${isDone?'tag-done':isNext?'tag-active':'tag-todo'}">${isDone?'Done':isNext?'Up next':'Locked'}</span>
-        </div>
-        <span class="lesson-arrow">→</span>
+        <div class="lesson-info"><div class="lesson-title">${lesson.title}</div><div class="lesson-kr">${lesson.kr}</div>${masteryBarHTML(lesson.chars)}</div>
+        <div class="lesson-meta"><span class="quiz-badge" data-num="${lesson.num}">Quiz ↗</span><span class="lesson-tag ${isDone?'tag-done':isNext?'tag-active':'tag-todo'}">${isDone?'Done':isNext?'Up next':'Locked'}</span></div>
       </div>`;
-    el.querySelector('.quiz-badge').addEventListener('click', e => { e.stopPropagation(); openQuiz(lesson); });
-    el.addEventListener('click', () => openLesson(lesson));
+    el.querySelector('.quiz-badge').addEventListener('click',e=>{e.stopPropagation();openQuiz(lesson);});
+    el.addEventListener('click',()=>openLesson(lesson));
     list.appendChild(el);
   });
 }
 
-/* ============================================================
+/* ================================================================
    LESSON MODAL
-   ============================================================ */
-function charCardHTML(ch) {
-  const hasNative = !!nativeUrl(ch.c);
-  return `
-    <div class="char-card" data-char="${ch.c}">
-      <div class="audio-src-dot ${hasNative?'native-ok':''}"></div>
-      <span class="char">${ch.c}</span>
-      <span class="romanized">${ch.r}</span>
-      <span class="example">${ch.ex}</span>
-    </div>`;
-}
-
-function openLesson(lesson) {
-  const isDone = completed.includes(lesson.num);
-  const nativeCount = lesson.chars.filter(ch => !!nativeUrl(ch.c)).length;
-  const mc = document.getElementById('modalContent');
-  mc.innerHTML = `
-    <div class="modal-num">Lesson ${lesson.num} · ${LESSONS.length}</div>
-    <div class="modal-title">${lesson.title}</div>
-    <div class="modal-kr">${lesson.kr}</div>
+   ================================================================ */
+function openLesson(lesson){
+  const isDone=getCompleted().has(lesson.num),nC=lesson.chars.filter(ch=>!!nativeUrl(ch.c)).length;
+  const mc=document.getElementById('modalContent');
+  mc.innerHTML=`<div class="modal-num">Lesson ${lesson.num} · ${LESSONS.length}</div>
+    <div class="modal-title">${lesson.title}</div><div class="modal-kr">${lesson.kr}</div>
     <div class="lesson-note">${lesson.note}</div>
-    <div class="modal-tabs">
-      <div class="modal-tab active" data-tab="study">Study</div>
-      <div class="modal-tab" data-tab="quiz">Quiz</div>
-    </div>
+    <div class="modal-tabs"><div class="modal-tab active" data-tab="study">Study</div><div class="modal-tab" data-tab="quiz">Quiz</div></div>
     <div class="tab-panel active" id="tabStudy">
-      <div class="content-section">
-        <h3>Characters · 글자</h3>
-        <div class="audio-legend">
-          <span><span class="legend-dot legend-native"></span>Native audio available</span>
-          <span><span class="legend-dot legend-tts"></span>TTS only</span>
-          <span style="margin-left:auto;color:var(--light-muted)">${nativeCount}/${lesson.chars.length} native</span>
-        </div>
-        <div class="char-grid">${lesson.chars.map(charCardHTML).join('')}</div>
+      <div class="content-section"><h3>Characters · 글자</h3>
+        <div class="audio-legend"><span><span class="legend-dot legend-native"></span>Native audio</span><span><span class="legend-dot legend-tts"></span>TTS only</span><span style="margin-left:auto;color:var(--light-muted)">${nC}/${lesson.chars.length} native</span></div>
+        <div class="char-grid">${lesson.chars.map(ch=>`<div class="char-card${nativeUrl(ch.c)?' native-ok':''}" data-char="${ch.c}"><div class="audio-src-dot"></div><span class="char">${ch.c}</span><span class="romanized">${ch.r}</span><span class="example">${ch.ex}</span></div>`).join('')}</div>
       </div>
-      <div class="btn-row">
-        <button class="btn-quiz-launch" id="modalQuizBtn">Quiz this lesson →</button>
-        <button class="btn-complete ${isDone?'done-btn':''}" id="completeBtn">
-          ${isDone?'✓ Completed':'Mark as Complete'}
-        </button>
-      </div>
+      <div class="btn-row"><button class="btn-quiz-launch" id="modalQuizBtn">Quiz this lesson →</button><button class="btn-complete ${isDone?'done-btn':''}" id="completeBtn">${isDone?'✓ Completed':'Mark as Complete'}</button></div>
     </div>
-    <div class="tab-panel" id="tabQuiz">
-      <div style="text-align:center;padding:28px 0">
-        <div style="font-family:'Noto Serif KR',serif;font-size:3.5rem;margin-bottom:12px">${lesson.chars[0].c}</div>
-        <p style="color:var(--muted);font-size:.8rem;line-height:1.7;margin-bottom:24px">
-          Test yourself on all ${lesson.chars.length} characters.<br>Flashcard or multiple-choice mode.
-        </p>
-        <button class="btn-quiz-launch" id="tabQuizBtn" style="display:inline-block;padding:14px 28px">Start Quiz →</button>
-      </div>
-    </div>`;
-
-  mc.querySelectorAll('.modal-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      mc.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
-      mc.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('tab'+tab.dataset.tab.charAt(0).toUpperCase()+tab.dataset.tab.slice(1)).classList.add('active');
-    });
-  });
-
-  mc.querySelectorAll('.char-card').forEach(card => {
-    card.addEventListener('click', () => {
-      stopAllAudio();
-      card.classList.add('playing');
-      playBest(card.dataset.char, null);
-      // remove playing after short delay
-      setTimeout(() => card.classList.remove('playing'), 1800);
-    });
-  });
-
-  const launch = () => { closeModal(); openQuiz(lesson); };
-  mc.querySelector('#modalQuizBtn').addEventListener('click', launch);
-  mc.querySelector('#tabQuizBtn').addEventListener('click', launch);
-
-  if (!isDone) {
-    mc.querySelector('#completeBtn').addEventListener('click', () => {
-      if (!completed.includes(lesson.num)) { completed.push(lesson.num); saveCompleted(); updateProgress(); renderList(); }
-      mc.querySelector('#completeBtn').textContent = '✓ Completed';
-      mc.querySelector('#completeBtn').classList.add('done-btn');
-    });
-  }
+    <div class="tab-panel" id="tabQuiz"><div style="text-align:center;padding:28px 0">
+      <div style="font-family:'Noto Serif KR',serif;font-size:3.5rem;margin-bottom:12px">${lesson.chars[0].c}</div>
+      <p style="color:var(--muted);font-size:.8rem;line-height:1.7;margin-bottom:24px">Test yourself on all ${lesson.chars.length} characters.</p>
+      <button class="btn-quiz-launch" id="tabQuizBtn" style="display:inline-block;padding:14px 28px">Start Quiz →</button>
+    </div></div>`;
+  mc.querySelectorAll('.modal-tab').forEach(tab=>tab.addEventListener('click',()=>{
+    mc.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
+    mc.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab'+tab.dataset.tab[0].toUpperCase()+tab.dataset.tab.slice(1)).classList.add('active');
+  }));
+  mc.querySelectorAll('.char-card').forEach(card=>card.addEventListener('click',()=>{stopAllAudio();card.classList.add('playing');playBest(card.dataset.char,null);setTimeout(()=>card.classList.remove('playing'),1800);}));
+  const launch=()=>{closeModal();openQuiz(lesson);};
+  mc.querySelector('#modalQuizBtn').addEventListener('click',launch);
+  mc.querySelector('#tabQuizBtn').addEventListener('click',launch);
+  if(!isDone){mc.querySelector('#completeBtn').addEventListener('click',()=>{saveManualComplete(lesson.num);lesson.chars.forEach(ch=>mMarkSeen(ch.id));mc.querySelector('#completeBtn').textContent='✓ Completed';mc.querySelector('#completeBtn').classList.add('done-btn');updateProgress();renderList();renderPracticeBanner();});}
   document.getElementById('overlay').classList.add('active');
 }
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))closeModal();});
+document.getElementById('modalClose').addEventListener('click',closeModal);
+function closeModal(){document.getElementById('overlay').classList.remove('active');stopAllAudio();}
 
-document.getElementById('overlay').addEventListener('click', e => { if(e.target===document.getElementById('overlay')) closeModal(); });
-document.getElementById('modalClose').addEventListener('click', closeModal);
-function closeModal() { document.getElementById('overlay').classList.remove('active'); stopAllAudio(); }
-
-/* ============================================================
+/* ================================================================
    QUIZ ENGINE
-   ============================================================ */
-let Q = { lesson:null, cards:[], idx:0, correct:0, mode:'flashcard', flipped:false, answered:false };
-
-function openQuiz(lesson) { Q.lesson=lesson; Q.mode='flashcard'; syncModeToggle(); startQuiz(); }
-
-function startQuiz() {
-  Q.cards=[...Q.lesson.chars].sort(()=>Math.random()-.5);
-  Q.idx=0; Q.correct=0; Q.flipped=false; Q.answered=false;
+   ================================================================ */
+let Q={lesson:null,cards:[],idx:0,correct:0,mode:'flashcard',flipped:false,answered:false};
+function openQuiz(lesson){Q.lesson=lesson;Q.mode='flashcard';syncModeToggle();startQuiz();}
+function startQuiz(){
+  Q.cards=[...Q.lesson.chars].sort(()=>Math.random()-.5);Q.idx=0;Q.correct=0;Q.flipped=false;Q.answered=false;
   document.getElementById('quizLabel').textContent=`Lesson ${Q.lesson.num} · ${Q.lesson.title}`;
-  buildDots();
-  document.getElementById('quizResult').style.display='none';
-  document.getElementById('modeToggle').style.display='flex';
-  if (Q.mode==='flashcard') {
-    document.getElementById('stageFlash').style.display='flex';
-    document.getElementById('stageChoice').style.display='none';
-    showFlashcard();
-  } else {
-    document.getElementById('stageFlash').style.display='none';
-    document.getElementById('stageChoice').style.display='flex';
-    showChoice();
-  }
+  document.getElementById('quizDots').innerHTML=Q.cards.map((_,i)=>`<div class="quiz-dot" id="dot${i}"></div>`).join('');
+  document.getElementById('quizResult').style.display='none';document.getElementById('modeToggle').style.display='flex';
+  if(Q.mode==='flashcard'){document.getElementById('stageFlash').style.display='flex';document.getElementById('stageChoice').style.display='none';showFlashcard();}
+  else{document.getElementById('stageFlash').style.display='none';document.getElementById('stageChoice').style.display='flex';showChoice();}
   document.getElementById('quizOverlay').classList.add('active');
 }
-
-function buildDots() {
-  document.getElementById('quizDots').innerHTML=Q.cards.map((_,i)=>`<div class="quiz-dot" id="dot${i}"></div>`).join('');
+function qdot(i,s){const d=document.getElementById('dot'+i);if(d)d.classList.add(s);}
+function tickP(){document.getElementById('quizProgress').textContent=`${Q.idx+1} / ${Q.cards.length}`;}
+function showFlashcard(){
+  Q.flipped=false;Q.answered=false;const card=Q.cards[Q.idx];
+  document.getElementById('fcChar').textContent=card.c;document.getElementById('fcRoman').textContent=card.r;document.getElementById('fcEx').textContent=card.ex;
+  document.getElementById('fcGlyph').textContent='';document.getElementById('cardBack').classList.remove('missed');
+  document.getElementById('flashcard').classList.remove('flipped');document.getElementById('verdictRow').style.display='none';document.getElementById('fcNext').style.display='none';
+  const nb=document.getElementById('fcNativeBtn');nb.style.opacity=nativeUrl(card.c)?'1':'.35';nb.style.pointerEvents=nativeUrl(card.c)?'auto':'none';
+  qdot(Q.idx,'seen');tickP();
 }
-function dot(i,s) { const d=document.getElementById('dot'+i); if(d) d.classList.add(s); }
-function tickP() { document.getElementById('quizProgress').textContent=`${Q.idx+1} / ${Q.cards.length}`; }
+document.getElementById('flashcard').addEventListener('click',()=>{if(Q.answered||Q.flipped)return;Q.flipped=true;document.getElementById('flashcard').classList.add('flipped');playBest(Q.cards[Q.idx].c,null);document.getElementById('verdictRow').style.display='flex';});
+document.getElementById('fcNativeBtn').addEventListener('click',e=>{e.stopPropagation();playNative(Q.cards[Q.idx].c,e.currentTarget,()=>playTTS(Q.cards[Q.idx].c,null));});
+document.getElementById('fcTtsBtn').addEventListener('click',e=>{e.stopPropagation();playTTS(Q.cards[Q.idx].c,e.currentTarget);});
+document.getElementById('fcMissed').addEventListener('click',()=>{Q.answered=true;document.getElementById('fcGlyph').textContent='✗';document.getElementById('cardBack').classList.add('missed');mApply(Q.cards[Q.idx].id,1);qdot(Q.idx,'wrong');showQAdv();});
+document.getElementById('fcGotIt').addEventListener('click',()=>{Q.answered=true;Q.correct++;document.getElementById('fcGlyph').textContent='✓';mApply(Q.cards[Q.idx].id,4);qdot(Q.idx,'correct');showQAdv();});
+function showQAdv(){document.getElementById('verdictRow').style.display='none';const btn=document.getElementById('fcNext');btn.style.display='block';const last=Q.idx>=Q.cards.length-1;btn.textContent=last?'See Results':'Next →';btn.className='btn-advance'+(last?'':' primary');}
+document.getElementById('fcNext').addEventListener('click',qAdv);
+function showChoice(){
+  Q.answered=false;const card=Q.cards[Q.idx];document.getElementById('chChar').textContent=card.c;document.getElementById('chNext').style.display='none';
+  const nb=document.getElementById('chNativeBtn');nb.style.opacity=nativeUrl(card.c)?'1':'.35';nb.style.pointerEvents=nativeUrl(card.c)?'auto':'none';
+  qdot(Q.idx,'seen');tickP();
+  const seen=new Set();const wrong=ALL_CHARS.filter(ch=>ch.r!==card.r).sort(()=>Math.random()-.5).filter(ch=>{if(seen.has(ch.r))return false;seen.add(ch.r);return true;}).slice(0,3);
+  const opts=[...wrong,card].sort(()=>Math.random()-.5);
+  const grid=document.getElementById('choiceGrid');grid.innerHTML='';
+  opts.forEach(opt=>{const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=opt.r;btn.addEventListener('click',()=>handleChoice(btn,opt.r===card.r,card));grid.appendChild(btn);});
+}
+document.getElementById('chNativeBtn').addEventListener('click',e=>{e.stopPropagation();playNative(Q.cards[Q.idx].c,e.currentTarget,()=>playTTS(Q.cards[Q.idx].c,null));});
+document.getElementById('chTtsBtn').addEventListener('click',e=>{e.stopPropagation();playTTS(Q.cards[Q.idx].c,e.currentTarget);});
+function handleChoice(btn,isCorrect,card){
+  if(Q.answered)return;Q.answered=true;
+  document.querySelectorAll('#choiceGrid .choice-btn').forEach(b=>{b.disabled=true;if(b.textContent===card.r)b.classList.add('is-correct');});
+  if(!isCorrect){btn.classList.add('is-wrong');mApply(card.id,1);qdot(Q.idx,'wrong');}else{Q.correct++;mApply(card.id,4);qdot(Q.idx,'correct');}
+  playBest(card.c,null);const nb=document.getElementById('chNext');nb.style.display='block';nb.textContent=Q.idx>=Q.cards.length-1?'See Results':'Next →';
+}
+document.getElementById('chNext').addEventListener('click',qAdv);
+function qAdv(){Q.idx++;if(Q.idx>=Q.cards.length){showQResult();return;}if(Q.mode==='flashcard')showFlashcard();else showChoice();}
+function showQResult(){
+  stopAllAudio();document.getElementById('stageFlash').style.display='none';document.getElementById('stageChoice').style.display='none';document.getElementById('modeToggle').style.display='none';
+  const total=Q.cards.length,pct=Math.round(Q.correct/total*100);
+  let stars='★★★',msg='완벽해요! Perfect score!';if(pct<100){stars='★★☆';msg='잘했어요! Almost there.';}if(pct<70){stars='★☆☆';msg='괜찮아요. Keep going!';}
+  document.getElementById('rStars').textContent=stars;document.getElementById('rScore').textContent=`${Q.correct}/${total}`;document.getElementById('rPct').textContent=`${pct}% correct`;document.getElementById('rMsg').textContent=msg;
+  document.getElementById('quizResult').style.display='block';
+  if(pct>=70){saveManualComplete(Q.lesson.num);updateProgress();renderList();renderPracticeBanner();}
+}
+document.getElementById('retryBtn').addEventListener('click',()=>{document.getElementById('quizResult').style.display='none';startQuiz();});
+document.getElementById('closeDoneBtn').addEventListener('click',closeQuiz);document.getElementById('quizExit').addEventListener('click',closeQuiz);
+function closeQuiz(){document.getElementById('quizOverlay').classList.remove('active');stopAllAudio();renderList();renderPracticeBanner();}
+function syncModeToggle(){document.querySelectorAll('.qm-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===Q.mode));}
+document.querySelectorAll('.qm-btn').forEach(btn=>btn.addEventListener('click',()=>{Q.mode=btn.dataset.mode;syncModeToggle();document.getElementById('quizResult').style.display='none';startQuiz();}));
 
-/* ─ FLASHCARD ─ */
-function showFlashcard() {
-  Q.flipped=false; Q.answered=false;
-  const card=Q.cards[Q.idx];
-  document.getElementById('fcChar').textContent=card.c;
-  document.getElementById('fcRoman').textContent=card.r;
-  document.getElementById('fcEx').textContent=card.ex;
-  document.getElementById('fcGlyph').textContent='';
-  document.getElementById('cardBack').classList.remove('missed');
-  document.getElementById('flashcard').classList.remove('flipped');
-  document.getElementById('verdictRow').style.display='none';
-  document.getElementById('fcNext').style.display='none';
-
-  // Style Native button based on availability
-  const nb = document.getElementById('fcNativeBtn');
-  if (nativeUrl(card.c)) {
-    nb.style.opacity='1'; nb.style.pointerEvents='auto';
-    nb.title='Play native speaker recording';
-  } else {
-    nb.style.opacity='.35'; nb.style.pointerEvents='none';
-    nb.title='No native recording for this character';
+/* ================================================================
+   STROKE ANIMATION
+   ================================================================ */
+let animReq=null;
+function stopAnim(){if(animReq){cancelAnimationFrame(animReq);animReq=null;}}
+function playStrokeAnim(canvas,char){
+  stopAnim();const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height,strokes=getCharStrokes(char);
+  if(!strokes||!strokes.length){ctx.fillStyle='#221c10';ctx.fillRect(0,0,w,h);ctx.fillStyle='#f5f0e8';ctx.font=`bold ${Math.floor(w*.55)}px 'Noto Serif KR',serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(char,w/2,h/2);return;}
+  function bg(){ctx.fillStyle='#221c10';ctx.fillRect(0,0,w,h);}
+  function path(pts){if(pts.length<2){if(pts.length===1){ctx.beginPath();ctx.arc(pts[0].x,pts[0].y,1.5,0,Math.PI*2);ctx.fill();}return;}ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i].x,pts[i].y);ctx.stroke();}
+  function drawAll(upTo,cur){
+    bg();ctx.strokeStyle='rgba(245,240,232,0.12)';ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';
+    strokes.forEach(s=>path(s.map(([px,py])=>({x:px*w,y:py*h}))));
+    ctx.strokeStyle='#f5f0e8';ctx.lineWidth=2.5;
+    for(let i=0;i<upTo;i++)path(strokes[i].map(([px,py])=>({x:px*w,y:py*h})));
+    if(cur&&cur.length>1){ctx.strokeStyle='#f5f0e8';path(cur);}
   }
-
-  dot(Q.idx,'seen'); tickP();
+  function partial(s,t){
+    const pts=s.map(([px,py])=>({x:px*w,y:py*h}));if(!pts.length)return[];if(t<=0)return[pts[0]];if(t>=1)return pts;
+    let tot=0;for(let i=1;i<pts.length;i++)tot+=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y);
+    const tgt=tot*t;let acc=0;const res=[pts[0]];
+    for(let i=1;i<pts.length;i++){const sl=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y);if(acc+sl>=tgt){const r=sl===0?0:(tgt-acc)/sl;res.push({x:pts[i-1].x+(pts[i].x-pts[i-1].x)*r,y:pts[i-1].y+(pts[i].y-pts[i-1].y)*r});break;}acc+=sl;res.push(pts[i]);}
+    return res;
+  }
+  let si=0,t=0,last=null;
+  function frame(ts){if(!last)last=ts;t+=(ts-last)/600;last=ts;if(t>=1){t=0;si++;if(si>=strokes.length){drawAll(strokes.length,null);return;}}drawAll(si,partial(strokes[si],t));animReq=requestAnimationFrame(frame);}
+  drawAll(0,null);animReq=requestAnimationFrame(frame);
 }
 
-document.getElementById('flashcard').addEventListener('click', () => {
-  if (Q.answered || Q.flipped) return;
-  Q.flipped=true;
-  document.getElementById('flashcard').classList.add('flipped');
-  playBest(Q.cards[Q.idx].c, null); // auto-play on flip
-  document.getElementById('verdictRow').style.display='flex';
-});
-
-document.getElementById('fcNativeBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  playNative(Q.cards[Q.idx].c, e.currentTarget, () => playTTS(Q.cards[Q.idx].c, null));
-});
-document.getElementById('fcTtsBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  playTTS(Q.cards[Q.idx].c, e.currentTarget);
-});
-
-document.getElementById('fcMissed').addEventListener('click', () => {
-  Q.answered=true;
-  document.getElementById('fcGlyph').textContent='✗';
-  document.getElementById('cardBack').classList.add('missed');
-  dot(Q.idx,'wrong'); showAdvance();
-});
-document.getElementById('fcGotIt').addEventListener('click', () => {
-  Q.answered=true; Q.correct++;
-  document.getElementById('fcGlyph').textContent='✓';
-  dot(Q.idx,'correct'); showAdvance();
-});
-function showAdvance() {
-  document.getElementById('verdictRow').style.display='none';
-  const btn=document.getElementById('fcNext');
-  btn.style.display='block';
-  const last=Q.idx>=Q.cards.length-1;
-  btn.textContent=last?'See Results':'Next →';
-  btn.className='btn-advance'+(last?'':' primary');
+/* ================================================================
+   DRAWING CANVAS
+   ================================================================ */
+let dStrokes=[],dCurrent=[],dCtx=null,dEl=null,dRef=null,dMode='trace';
+function initDrawCanvas(canvas,char,mode){
+  dEl=canvas;dCtx=canvas.getContext('2d');dStrokes=[];dCurrent=[];dMode=mode;dRef=getCharStrokes(char);
+  sizeCanvas();renderCanvas();
+  canvas.onmousedown=e=>{dCurrent=[{x:e.offsetX,y:e.offsetY}];};
+  canvas.onmousemove=e=>{if(!(e.buttons&1))return;dCurrent.push({x:e.offsetX,y:e.offsetY});renderCanvas();};
+  canvas.onmouseup=()=>{if(dCurrent.length)dStrokes.push([...dCurrent]);dCurrent=[];renderCanvas();updSubmit();};
+  canvas.ontouchstart=e=>{e.preventDefault();const t=e.touches[0],r=canvas.getBoundingClientRect();dCurrent=[{x:t.clientX-r.left,y:t.clientY-r.top}];};
+  canvas.ontouchmove=e=>{e.preventDefault();const t=e.touches[0],r=canvas.getBoundingClientRect();dCurrent.push({x:t.clientX-r.left,y:t.clientY-r.top});renderCanvas();};
+  canvas.ontouchend=()=>{if(dCurrent.length)dStrokes.push([...dCurrent]);dCurrent=[];renderCanvas();updSubmit();};
 }
-document.getElementById('fcNext').addEventListener('click', advance);
+function sizeCanvas(){
+  if(!dEl)return;const r=dEl.parentElement.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  dEl.width=r.width*dpr;dEl.height=r.height*dpr;dEl.style.width=r.width+'px';dEl.style.height=r.height+'px';dCtx.scale(dpr,dpr);
+}
+function cW(){return dEl?dEl.width/(window.devicePixelRatio||1):1;}
+function cH(){return dEl?dEl.height/(window.devicePixelRatio||1):1;}
+function renderCanvas(){
+  if(!dCtx)return;const w=cW(),h=cH();
+  dCtx.clearRect(0,0,w,h);dCtx.fillStyle='#f5f0e8';dCtx.fillRect(0,0,w,h);
+  dCtx.fillStyle='rgba(26,18,8,0.06)';for(let x=24;x<w;x+=24)for(let y=24;y<h;y+=24){dCtx.beginPath();dCtx.arc(x,y,1,0,Math.PI*2);dCtx.fill();}
+  if(dMode==='trace'&&dRef){dCtx.strokeStyle='rgba(26,18,8,0.10)';dCtx.lineWidth=3;dCtx.lineCap='round';dCtx.lineJoin='round';dRef.forEach(s=>dPath(s.map(([px,py])=>({x:px*w,y:py*h}))));}
+  dCtx.strokeStyle='#1a1208';dCtx.lineWidth=3;dCtx.lineCap='round';dCtx.lineJoin='round';
+  dStrokes.forEach(s=>dPath(s));if(dCurrent.length)dPath(dCurrent);
+  const n=dStrokes.length+(dCurrent.length?1:0);dCtx.fillStyle='rgba(122,111,94,0.55)';dCtx.font='11px monospace';dCtx.textAlign='right';dCtx.fillText(`Stroke: ${n}`,w-10,20);
+}
+function dPath(pts){if(pts.length<2){if(pts.length===1){dCtx.beginPath();dCtx.arc(pts[0].x,pts[0].y,1.5,0,Math.PI*2);dCtx.fill();}return;}dCtx.beginPath();dCtx.moveTo(pts[0].x,pts[0].y);for(let i=1;i<pts.length;i++)dCtx.lineTo(pts[i].x,pts[i].y);dCtx.stroke();}
+function updSubmit(){const btn=document.getElementById('pracSubmitBtn');if(btn)btn.disabled=dStrokes.length===0;}
+function drawClear(){dStrokes=[];dCurrent=[];renderCanvas();updSubmit();}
 
-/* ─ CHOICE ─ */
-function showChoice() {
-  Q.answered=false;
-  const card=Q.cards[Q.idx];
-  document.getElementById('chChar').textContent=card.c;
-  document.getElementById('chNext').style.display='none';
+/* ================================================================
+   STROKE SCORER
+   ================================================================ */
+function resample(pts,n){
+  if(!pts.length)return Array(n).fill({x:0,y:0});if(pts.length===1)return Array(n).fill(pts[0]);
+  let tot=0;for(let i=1;i<pts.length;i++)tot+=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y);
+  if(!tot)return Array(n).fill(pts[0]);
+  const iv=tot/(n-1),res=[pts[0]];let acc=0,si=0;
+  for(let i=1;i<n-1;i++){const tgt=i*iv;while(si<pts.length-2){const sl=Math.hypot(pts[si+1].x-pts[si].x,pts[si+1].y-pts[si].y);if(acc+sl>=tgt)break;acc+=sl;si++;}
+    if(si>=pts.length-1){res.push(pts[pts.length-1]);}else{const sl=Math.hypot(pts[si+1].x-pts[si].x,pts[si+1].y-pts[si].y),t=sl?Math.min(1,Math.max(0,(tgt-acc)/sl)):0;res.push({x:pts[si].x+(pts[si+1].x-pts[si].x)*t,y:pts[si].y+(pts[si+1].y-pts[si].y)*t});}}
+  res.push(pts[pts.length-1]);return res;
+}
+function frechet(a,b){
+  const n=a.length,m=b.length,dp=Array.from({length:n},()=>Array(m).fill(-1));
+  function d(i,j){if(dp[i][j]>=0)return dp[i][j];const dist=Math.hypot(a[i].x-b[j].x,a[i].y-b[j].y);if(!i&&!j)dp[i][j]=dist;else if(!i)dp[i][j]=Math.max(dist,d(0,j-1));else if(!j)dp[i][j]=Math.max(dist,d(i-1,0));else dp[i][j]=Math.max(dist,Math.min(d(i-1,j),d(i-1,j-1),d(i,j-1)));return dp[i][j];}
+  return d(n-1,m-1);
+}
+function strokeScore(user,ref,w,h){
+  if(!ref||!ref.length||!user||!user.length)return 0;
+  const N=20,diag=Math.hypot(w,h),thr=0.3*diag;
+  const refR=ref.map(s=>resample(s.map(([px,py])=>({x:px*w,y:py*h})),N));
+  const userR=user.map(s=>resample(s,N));
+  let tot=0;for(const r of refR){let best=0;for(const u of userR){const sc=Math.max(0,Math.min(1,1-frechet(r,u)/thr));if(sc>best)best=sc;}tot+=best;}
+  return Math.max(0,Math.min(1,(tot/refR.length)*(Math.min(userR.length,refR.length)/Math.max(userR.length,refR.length))));
+}
 
-  const nb=document.getElementById('chNativeBtn');
-  if (nativeUrl(card.c)) { nb.style.opacity='1'; nb.style.pointerEvents='auto'; }
-  else { nb.style.opacity='.35'; nb.style.pointerEvents='none'; }
+/* ================================================================
+   PRACTICE ENGINE
+   ================================================================ */
+let P={queue:[],idx:0,done:0};
+function openPractice(){
+  const ids=getDueIds(ALL_CHARS);P.queue=ids.map(id=>ALL_CHARS.find(c=>c.id===id)).filter(Boolean);P.idx=0;P.done=0;
+  document.getElementById('pracOverlay').classList.add('active');stopAllAudio();
+  P.queue.length===0?renderPracDone():showPracNext();
+}
+function closePractice(){document.getElementById('pracOverlay').classList.remove('active');stopAnim();stopAllAudio();updateProgress();renderList();renderPracticeBanner();}
+document.getElementById('pracExit').addEventListener('click',closePractice);
+function updPracHdr(){const t=P.queue.length,p=t?P.done/t:0;document.getElementById('pracProgBar').style.width=(p*100)+'%';document.getElementById('pracProgText').textContent=`${P.done} / ${t}`;}
+function showPracNext(){if(P.idx>=P.queue.length){renderPracDone();return;}const card=P.queue[P.idx],m=mGet(card.id);updPracHdr();m.level<=LVL.SEEN?renderPracFlash(card):renderPracCanvas(card,m.level===LVL.RECOGNIZED?'trace':'freeDraw');}
+function advPrac(){P.done++;P.idx++;showPracNext();}
 
-  dot(Q.idx,'seen'); tickP();
+function renderPracFlash(card){
+  stopAnim();
+  document.getElementById('pracBody').innerHTML=`<div class="prac-flash">
+    <div class="prac-card" id="pracCard"><div class="prac-card-hint">TAP TO REVEAL</div><div class="prac-card-char">${card.c}</div>
+      <div class="prac-audio-row" style="display:none" id="pracAudioRow"><button class="card-native-btn" id="pfN" style="opacity:${nativeUrl(card.c)?'1':'.35'};pointer-events:${nativeUrl(card.c)?'auto':'none'}">🎙 Native</button><button class="card-tts-btn" id="pfT">🔊 TTS</button></div></div>
+    <div id="pfV" style="display:none"><div class="verdict-row"><button class="verdict-btn verdict-missed" id="pfMiss">✗ Missed it</button><button class="verdict-btn verdict-got-it" id="pfGot">✓ Got it</button></div></div>
+    <div style="text-align:center;margin-top:8px"><button style="background:none;border:none;font-family:'DM Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.25);cursor:pointer" id="pfSkip">Skip</button></div>
+  </div>`;
+  let rev=false;
+  document.getElementById('pracCard').addEventListener('click',()=>{
+    if(rev)return;rev=true;const card2=card;
+    document.getElementById('pracCard').classList.add('revealed');
+    document.getElementById('pracCard').querySelector('.prac-card-hint').style.display='none';
+    const r=document.createElement('div');r.className='prac-card-roman';r.textContent=card2.r;
+    const e=document.createElement('div');e.className='prac-card-ex';e.textContent=card2.ex;
+    document.getElementById('pracCard').appendChild(r);document.getElementById('pracCard').appendChild(e);
+    document.getElementById('pracAudioRow').style.display='flex';document.getElementById('pfV').style.display='block';
+    playBest(card2.c,null);
+  });
+  document.getElementById('pfN').addEventListener('click',e=>{e.stopPropagation();playNative(card.c,e.currentTarget,()=>playTTS(card.c,null));});
+  document.getElementById('pfT').addEventListener('click',e=>{e.stopPropagation();playTTS(card.c,e.currentTarget);});
+  document.getElementById('pfMiss').addEventListener('click',()=>{mApply(card.id,1);advPrac();});
+  document.getElementById('pfGot').addEventListener('click',()=>{mApply(card.id,4);advPrac();});
+  document.getElementById('pfSkip').addEventListener('click',()=>advPrac());
+}
 
-  const wrongPool=ALL_CHARS.filter(ch=>ch.r!==card.r);
-  const seen=new Set();
-  const wrongs=wrongPool.sort(()=>Math.random()-.5).filter(ch=>{ if(seen.has(ch.r)) return false; seen.add(ch.r); return true; }).slice(0,3);
-  const opts=[...wrongs,card].sort(()=>Math.random()-.5);
-  const grid=document.getElementById('choiceGrid');
-  grid.innerHTML='';
-  opts.forEach(opt => {
-    const btn=document.createElement('button');
-    btn.className='choice-btn';
-    btn.textContent=opt.r;
-    btn.addEventListener('click',()=>handleChoice(btn,opt.r===card.r,card));
-    grid.appendChild(btn);
+function renderPracCanvas(card,mode){
+  document.getElementById('pracBody').innerHTML=`<div class="prac-canvas-panel">
+    <div class="prac-canvas-top">
+      <div class="anim-canvas-wrap"><canvas id="animCanvas" width="100" height="100"></canvas></div>
+      <div class="prac-canvas-info"><div class="prac-canvas-char">${card.c}</div><div class="prac-canvas-roman">${card.r}</div><div class="prac-canvas-ex">${card.ex}</div></div>
+    </div>
+    <div class="prac-mode-bar"><div class="prac-mode-indicator"></div><span class="prac-mode-label">${mode==='trace'?'TRACE MODE':'FREE DRAW'}</span><span class="prac-mode-instr">${mode==='trace'?'Trace the faint character below':'Draw from memory'}</span></div>
+    <div class="draw-canvas-wrap"><canvas id="drawCanvas"></canvas></div>
+    <div class="prac-canvas-btns"><button class="draw-btn-clear" id="pracClear">Clear</button><button class="draw-btn-skip" id="pracSkip">Skip</button><button class="draw-btn-submit" id="pracSubmitBtn" disabled>Submit</button></div>
+  </div>`;
+  playStrokeAnim(document.getElementById('animCanvas'),card.c);
+  requestAnimationFrame(()=>initDrawCanvas(document.getElementById('drawCanvas'),card.c,mode));
+  document.getElementById('pracClear').addEventListener('click',drawClear);
+  document.getElementById('pracSkip').addEventListener('click',()=>{stopAnim();advPrac();});
+  document.getElementById('pracSubmitBtn').addEventListener('click',()=>{
+    stopAnim();const w=cW(),h=cH();
+    const sc=dRef&&dRef.length?strokeScore(dStrokes,dRef,w,h):(dStrokes.length?0.5:0);
+    mApply(card.id,Math.min(5,Math.round(sc*5)));renderPracScore(sc,card);
   });
 }
 
-document.getElementById('chNativeBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  playNative(Q.cards[Q.idx].c, e.currentTarget, ()=>playTTS(Q.cards[Q.idx].c, null));
-});
-document.getElementById('chTtsBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  playTTS(Q.cards[Q.idx].c, e.currentTarget);
-});
-
-function handleChoice(btn,isCorrect,card) {
-  if(Q.answered) return;
-  Q.answered=true;
-  document.querySelectorAll('#choiceGrid .choice-btn').forEach(b=>{ b.disabled=true; if(b.textContent===card.r) b.classList.add('is-correct'); });
-  if(!isCorrect) { btn.classList.add('is-wrong'); dot(Q.idx,'wrong'); }
-  else { Q.correct++; dot(Q.idx,'correct'); }
-  playBest(card.c, null); // auto play after answer
-  const nb=document.getElementById('chNext');
-  nb.style.display='block';
-  nb.textContent=Q.idx>=Q.cards.length-1?'See Results':'Next →';
-}
-document.getElementById('chNext').addEventListener('click', advance);
-
-function advance() { Q.idx++; if(Q.idx>=Q.cards.length){showResult();return;} if(Q.mode==='flashcard') showFlashcard(); else showChoice(); }
-
-/* ─ RESULT ─ */
-function showResult() {
-  stopAllAudio();
-  document.getElementById('stageFlash').style.display='none';
-  document.getElementById('stageChoice').style.display='none';
-  document.getElementById('modeToggle').style.display='none';
-  const total=Q.cards.length, pct=Math.round(Q.correct/total*100);
-  let stars='★★★', msg='완벽해요! Perfect score!';
-  if(pct<100){stars='★★☆'; msg='잘했어요! Almost there.';}
-  if(pct<70) {stars='★☆☆'; msg='괜찮아요. Keep going!';}
-  document.getElementById('rStars').textContent=stars;
-  document.getElementById('rScore').textContent=`${Q.correct}/${total}`;
-  document.getElementById('rPct').textContent=`${pct}% correct`;
-  document.getElementById('rMsg').textContent=msg;
-  document.getElementById('quizResult').style.display='block';
-  if(pct>=70 && !completed.includes(Q.lesson.num)) { completed.push(Q.lesson.num); saveCompleted(); updateProgress(); renderList(); }
+function renderPracScore(score,card){
+  const pct=Math.round(score*100),color=score>=0.7?'#2d6a4f':score>=0.4?'#d4a017':'#c0392b';
+  let msg='다시 해봐요. Try again.';if(score>=0.8)msg='완벽해요! Perfect.';else if(score>=0.6)msg='잘했어요! Good.';else if(score>=0.4)msg='괜찮아요. Keep trying.';
+  document.getElementById('pracBody').innerHTML=`<div class="prac-score-panel">
+    <div class="score-pct-text" style="color:${color}">${pct}%</div>
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreBar" style="background:${color}"></div></div>
+    <div class="score-msg-text">${msg}</div>
+    <div class="score-actions"><button class="score-btn score-btn-retry" id="scoreRetry">Try Again</button><button class="score-btn score-btn-next" id="scoreNext">Next →</button></div>
+  </div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const b=document.getElementById('scoreBar');if(b)b.style.width=pct+'%';}));
+  document.getElementById('scoreRetry').addEventListener('click',()=>renderPracCanvas(card,mGet(card.id).level===LVL.RECOGNIZED?'trace':'freeDraw'));
+  document.getElementById('scoreNext').addEventListener('click',()=>advPrac());
 }
 
-document.getElementById('retryBtn').addEventListener('click', ()=>{ document.getElementById('quizResult').style.display='none'; startQuiz(); });
-document.getElementById('closeDoneBtn').addEventListener('click', closeQuiz);
-document.getElementById('quizExit').addEventListener('click', closeQuiz);
-function closeQuiz() { document.getElementById('quizOverlay').classList.remove('active'); stopAllAudio(); }
+function renderPracDone(){
+  updPracHdr();
+  const db=mLoad();let u=0,s=0,r=0,w=0;
+  ALL_CHARS.forEach(ch=>{const l=(db[ch.id]||{level:0}).level;if(l===LVL.UNSEEN)u++;else if(l===LVL.SEEN)s++;else if(l===LVL.RECOGNIZED)r++;else w++;});
+  const now=Date.now();let next=null;
+  ALL_CHARS.forEach(ch=>{const m=mGet(ch.id);if(m.level!==LVL.UNSEEN){const dt=new Date(m.due).getTime();if(dt>now&&(!next||dt<next))next=dt;}});
+  let nextStr='';if(next){const d=next-now;nextStr=d<3600000?`Next review in ${Math.ceil(d/60000)}m`:d<86400000?`Next review in ${Math.ceil(d/3600000)}h`:`Next review in ${Math.ceil(d/86400000)} days`;}
+  document.getElementById('pracBody').innerHTML=`<div class="prac-done-panel">
+    <div class="prac-done-icon">${P.queue.length===0?'✓':'★'}</div>
+    <div class="prac-done-title">${P.queue.length===0?'All caught up!':'Session complete!'}</div>
+    <div class="prac-done-sub">${P.done>0?`${P.done} card${P.done===1?'':'s'} reviewed`:''}</div>
+    <div class="mastery-summary-box"><div class="mastery-summary-title">Mastery Overview</div>
+      <div class="mastery-row"><div class="mastery-dot" style="background:rgba(255,255,255,.2)"></div><span class="mastery-row-label">Unseen</span><span class="mastery-row-count">${u}</span></div>
+      <div class="mastery-row"><div class="mastery-dot" style="background:#aaa"></div><span class="mastery-row-label">Seen</span><span class="mastery-row-count">${s}</span></div>
+      <div class="mastery-row"><div class="mastery-dot" style="background:#d4a017"></div><span class="mastery-row-label">Recognized</span><span class="mastery-row-count">${r}</span></div>
+      <div class="mastery-row"><div class="mastery-dot" style="background:#2d6a4f"></div><span class="mastery-row-label">Can Write</span><span class="mastery-row-count">${w}</span></div>
+    </div>
+    ${nextStr?`<div class="prac-done-next">${nextStr}</div>`:''}
+    <button class="prac-back-btn" id="pracBack">Back to Home</button>
+  </div>`;
+  document.getElementById('pracBack').addEventListener('click',closePractice);
+}
 
-function syncModeToggle() { document.querySelectorAll('.qm-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===Q.mode)); }
-document.querySelectorAll('.qm-btn').forEach(btn => {
-  btn.addEventListener('click', ()=>{ Q.mode=btn.dataset.mode; syncModeToggle(); document.getElementById('quizResult').style.display='none'; startQuiz(); });
-});
-
-/* ============================================================
+/* ================================================================
    INIT
-   ============================================================ */
+   ================================================================ */
 updateProgress();
 renderList();
+renderPracticeBanner();
 </script>
 </body>
 </html>

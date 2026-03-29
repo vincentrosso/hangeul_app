@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/models.dart';
+import '../services/mastery_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/char_card_widget.dart';
+import '../widgets/drawing_canvas_widget.dart';
 import 'quiz_screen.dart';
+import 'writing_screen.dart';
 
 class LessonScreen extends StatefulWidget {
   final Lesson lesson;
@@ -37,7 +40,7 @@ class _LessonScreenState extends State<LessonScreen>
   @override
   void initState() {
     super.initState();
-    _tab = TabController(length: 2, vsync: this);
+    _tab = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -69,6 +72,7 @@ class _LessonScreenState extends State<LessonScreen>
           tabs: const [
             Tab(text: 'STUDY'),
             Tab(text: 'QUIZ'),
+            Tab(text: 'WRITE'),
           ],
         ),
       ),
@@ -96,13 +100,14 @@ class _LessonScreenState extends State<LessonScreen>
             onStartQuiz: () => _tab.animateTo(1),
           ),
           _QuizTab(lesson: widget.lesson),
+          _WriteTab(lesson: widget.lesson),
         ],
       ),
     );
   }
 }
 
-class _StudyTab extends StatelessWidget {
+class _StudyTab extends StatefulWidget {
   final Lesson lesson;
   final int nativeCount;
   final bool marked;
@@ -118,6 +123,34 @@ class _StudyTab extends StatelessWidget {
   });
 
   @override
+  State<_StudyTab> createState() => _StudyTabState();
+}
+
+class _StudyTabState extends State<_StudyTab> {
+  Map<String, MasteryLevel> _masteryMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMastery();
+  }
+
+  Future<void> _loadMastery() async {
+    // Mark all chars as seen and load their mastery
+    for (final card in widget.lesson.chars) {
+      await MasteryService.instance.markSeen(card.audioStem);
+    }
+    if (mounted) {
+      setState(() {
+        _masteryMap = {
+          for (final card in widget.lesson.chars)
+            card.audioStem: MasteryService.instance.get(card.audioStem).level
+        };
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -126,7 +159,7 @@ class _StudyTab extends StatelessWidget {
         children: [
           // Korean title
           Text(
-            lesson.titleKr,
+            widget.lesson.titleKr,
             style: GoogleFonts.notoSerifKr(
               fontSize: 14, color: AppTheme.muted, fontWeight: FontWeight.w300,
             ),
@@ -147,7 +180,7 @@ class _StudyTab extends StatelessWidget {
               ),
             ),
             child: Text(
-              lesson.note,
+              widget.lesson.note,
               style: GoogleFonts.dmMono(
                 fontSize: 12, color: AppTheme.ink, height: 1.7,
               ),
@@ -175,7 +208,10 @@ class _StudyTab extends StatelessWidget {
           ),
           const SizedBox(height: 10),
 
-          AudioLegend(nativeCount: nativeCount, total: lesson.chars.length),
+          AudioLegend(
+            nativeCount: widget.nativeCount,
+            total: widget.lesson.chars.length,
+          ),
 
           // Char grid
           GridView.builder(
@@ -187,8 +223,14 @@ class _StudyTab extends StatelessWidget {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
-            itemCount: lesson.chars.length,
-            itemBuilder: (_, i) => CharCardWidget(card: lesson.chars[i]),
+            itemCount: widget.lesson.chars.length,
+            itemBuilder: (_, i) {
+              final card = widget.lesson.chars[i];
+              return CharCardWidget(
+                card: card,
+                mastery: _masteryMap[card.audioStem],
+              );
+            },
           ),
 
           const SizedBox(height: 28),
@@ -198,7 +240,7 @@ class _StudyTab extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: onStartQuiz,
+                  onPressed: widget.onStartQuiz,
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppTheme.ink,
                     side: BorderSide(color: AppTheme.border),
@@ -216,9 +258,9 @@ class _StudyTab extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: marked ? null : onMarkComplete,
+                  onPressed: widget.marked ? null : widget.onMarkComplete,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: marked ? AppTheme.done : AppTheme.ink,
+                    backgroundColor: widget.marked ? AppTheme.done : AppTheme.ink,
                     foregroundColor: AppTheme.paper,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -227,7 +269,7 @@ class _StudyTab extends StatelessWidget {
                     elevation: 0,
                   ),
                   child: Text(
-                    marked ? '✓ Completed' : 'Mark Complete',
+                    widget.marked ? '✓ Completed' : 'Mark Complete',
                     style: GoogleFonts.dmMono(
                       fontSize: 12, letterSpacing: 0.5,
                     ),
@@ -297,6 +339,112 @@ class _QuizTab extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _WriteTab extends StatelessWidget {
+  final Lesson lesson;
+  const _WriteTab({required this.lesson});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'WRITE · 쓰기',
+            style: GoogleFonts.dmMono(
+              fontSize: 10, letterSpacing: 2, color: AppTheme.muted,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Practice writing each character. Follow the stroke order animation.',
+            style: GoogleFonts.dmMono(
+              fontSize: 12, color: AppTheme.muted, height: 1.6,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ...lesson.chars.map(
+            (card) => _WriteRow(card: card),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WriteRow extends StatelessWidget {
+  final CharCard card;
+  const _WriteRow({required this.card});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppTheme.cream,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppTheme.border),
+      ),
+      child: Row(
+        children: [
+          Text(
+            card.char,
+            style: GoogleFonts.notoSerifKr(
+              fontSize: 28, fontWeight: FontWeight.w700, color: AppTheme.ink,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  card.romanized,
+                  style: GoogleFonts.dmMono(
+                    fontSize: 13, color: AppTheme.muted,
+                  ),
+                ),
+                Text(
+                  card.example,
+                  style: GoogleFonts.notoSansKr(
+                    fontSize: 10, color: AppTheme.lightMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => WritingScreen(
+                  card: card,
+                  mode: CanvasMode.trace,
+                ),
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.ink,
+              foregroundColor: AppTheme.paper,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              elevation: 0,
+            ),
+            child: Text(
+              '✎ Trace',
+              style: GoogleFonts.dmMono(fontSize: 11, letterSpacing: 0.3),
+            ),
+          ),
+        ],
       ),
     );
   }

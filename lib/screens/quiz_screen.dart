@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../data/lessons.dart';
 import '../models/models.dart';
 import '../services/audio_service.dart';
+import '../services/mastery_service.dart';
 import '../theme/app_theme.dart';
+import '../widgets/drawing_canvas_widget.dart';
 
 class QuizScreen extends StatefulWidget {
   final Lesson lesson;
@@ -37,9 +39,12 @@ class _QuizScreenState extends State<QuizScreen> {
     _done = false;
   }
 
-  void _recordResult(bool correct) {
+  void _recordResult(bool correct, {String? charId}) {
     _results.add(correct);
     if (correct) _correct++;
+    if (charId != null) {
+      MasteryService.instance.applyReview(charId, correct ? 4 : 1);
+    }
   }
 
   void _advance() {
@@ -98,26 +103,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
                 // Quiz card area
                 Expanded(
-                  child: _mode == QuizMode.flashcard
-                      ? _FlashcardView(
-                          key: ValueKey('fc_$_idx'),
-                          card: _cards[_idx],
-                          onResult: (correct) {
-                            _recordResult(correct);
-                            _advance();
-                          },
-                        )
-                      : _MultipleChoiceView(
-                          key: ValueKey('mc_$_idx'),
-                          card: _cards[_idx],
-                          allCards: kLessons
-                              .expand((l) => l.chars)
-                              .toList(),
-                          onResult: (correct) {
-                            _recordResult(correct);
-                          },
-                          onNext: _advance,
-                        ),
+                  child: _buildCardArea(),
                 ),
 
                 // Progress text
@@ -133,6 +119,61 @@ class _QuizScreenState extends State<QuizScreen> {
               ],
             ),
     );
+  }
+
+  Widget _buildCardArea() {
+    final card = _cards[_idx];
+
+    switch (_mode) {
+      case QuizMode.flashcard:
+        return _FlashcardView(
+          key: ValueKey('fc_$_idx'),
+          card: card,
+          onResult: (correct) {
+            _recordResult(correct, charId: card.audioStem);
+            _advance();
+          },
+        );
+
+      case QuizMode.multipleChoice:
+        return _MultipleChoiceView(
+          key: ValueKey('mc_$_idx'),
+          card: card,
+          allCards: kLessons.expand((l) => l.chars).toList(),
+          onResult: (correct) {
+            _recordResult(correct, charId: card.audioStem);
+          },
+          onNext: _advance,
+        );
+
+      case QuizMode.trace:
+        return _DrawingView(
+          key: ValueKey('trace_$_idx'),
+          card: card,
+          mode: CanvasMode.trace,
+          onSubmit: (score, strokes) {
+            final quality = (score * 5).round().clamp(0, 5);
+            MasteryService.instance.applyReview(card.audioStem, quality);
+            _recordResult(score >= 0.5, charId: null);
+            _advance();
+          },
+          onSkip: _advance,
+        );
+
+      case QuizMode.freeDraw:
+        return _DrawingView(
+          key: ValueKey('free_$_idx'),
+          card: card,
+          mode: CanvasMode.freeDraw,
+          onSubmit: (score, strokes) {
+            final quality = (score * 5).round().clamp(0, 5);
+            MasteryService.instance.applyReview(card.audioStem, quality);
+            _recordResult(score >= 0.5, charId: null);
+            _advance();
+          },
+          onSkip: _advance,
+        );
+    }
   }
 }
 
@@ -186,11 +227,23 @@ class _ModeToggle extends StatelessWidget {
         border: Border.all(color: Colors.white12),
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Row(
+      child: Column(
         children: [
-          _tab('↩ Flashcard', QuizMode.flashcard),
-          Container(width: 1, color: Colors.white12),
-          _tab('⊞ Multiple Choice', QuizMode.multipleChoice),
+          Row(
+            children: [
+              _tab('↩ Flashcard', QuizMode.flashcard),
+              Container(width: 1, color: Colors.white12),
+              _tab('⊞ Multiple Choice', QuizMode.multipleChoice),
+            ],
+          ),
+          Container(height: 1, color: Colors.white12),
+          Row(
+            children: [
+              _tab('✎ Trace', QuizMode.trace),
+              Container(width: 1, color: Colors.white12),
+              _tab('✏ Free Draw', QuizMode.freeDraw),
+            ],
+          ),
         ],
       ),
     );
@@ -217,6 +270,70 @@ class _ModeToggle extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+// ─── Drawing view wrapper ────────────────────────────────────────────────────
+
+class _DrawingView extends StatelessWidget {
+  final CharCard card;
+  final CanvasMode mode;
+  final void Function(double score, List<List<Offset>> strokes) onSubmit;
+  final VoidCallback onSkip;
+
+  const _DrawingView({
+    super.key,
+    required this.card,
+    required this.mode,
+    required this.onSubmit,
+    required this.onSkip,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+          child: Row(
+            children: [
+              Text(
+                card.char,
+                style: GoogleFonts.notoSerifKr(
+                  fontSize: 40, fontWeight: FontWeight.w700, color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    card.romanized,
+                    style: GoogleFonts.dmMono(
+                      fontSize: 16, color: Colors.white60, letterSpacing: 0.5,
+                    ),
+                  ),
+                  Text(
+                    mode == CanvasMode.trace ? 'Trace the character' : 'Draw from memory',
+                    style: GoogleFonts.dmMono(
+                      fontSize: 10, color: Colors.white30,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: DrawingCanvasWidget(
+            char: card.char,
+            mode: mode,
+            onSubmit: onSubmit,
+            onSkip: onSkip,
+          ),
+        ),
+      ],
     );
   }
 }

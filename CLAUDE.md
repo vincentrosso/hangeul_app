@@ -13,7 +13,8 @@ Default output format is raw text — no markdown formatting, no code fences, no
 ## Project Overview
 
 hangeul_app is a Flutter iOS app for learning the Korean alphabet (한글).
-8 lessons, 51 characters, native speaker audio, flashcard and multiple-choice quiz modes.
+8 lessons, 51 characters, native speaker audio, flashcard and multiple-choice quiz modes,
+spaced repetition practice, and stroke-order writing with scoring.
 
 App name: hangeul
 Version: 1.0.0+1
@@ -24,18 +25,35 @@ Target platform: iOS (Simulator + physical device)
 
 ## Structure
 
-lib/main.dart                        entry point
-lib/models/models.dart               CharCard, Lesson, QuizMode
+lib/main.dart                        entry point; inits MasteryService + AudioService
+lib/models/models.dart               CharCard, Lesson, QuizMode, MasteryLevel, CharMastery
 lib/data/lessons.dart                all 8 lessons / 51 characters
+lib/data/stroke_data.dart            jamo stroke tables (0-1 unit square coords) for all consonants/vowels
 lib/services/audio_service.dart      3-tier audio: native .ogg → Google TTS .mp3 → flutter_tts fallback
-lib/services/progress_service.dart   lesson completion via shared_preferences
+lib/services/mastery_service.dart    SM-2 spaced repetition; levels: unseen→seen→recognized→canWrite
+lib/services/stroke_scorer.dart      Fréchet distance stroke scorer; returns 0.0–1.0
 lib/theme/app_theme.dart             paper/ink color scheme, typography
-lib/screens/home_screen.dart         lesson list + progress
-lib/screens/lesson_screen.dart       study tab + quiz tab
-lib/screens/quiz_screen.dart         flashcard + multiple choice + results
+lib/screens/home_screen.dart         lesson list + mastery bars + daily practice banner
+lib/screens/lesson_screen.dart       study tab + write tab + quiz tab
+lib/screens/quiz_screen.dart         flashcard + multiple choice + results; feeds MasteryService
+lib/screens/practice_screen.dart     daily review queue: flashcard (unseen/seen), trace/free draw (recognized/canWrite)
+lib/screens/writing_screen.dart      single-char writing screen with score panel and SM-2 update
 lib/widgets/char_card_widget.dart    tappable character card with audio dot indicator
+lib/widgets/drawing_canvas_widget.dart  touch canvas: trace mode (ghost overlay) and free draw; submits to StrokeScorer
+lib/widgets/stroke_animation_widget.dart  animated stroke-order playback per jamo
 assets/audio/                        bundled .mp3 / .ogg files (populated by download_audio.py)
 download_audio.py                    one-time script to fetch audio assets
+
+---
+
+## Mastery System
+
+MasteryLevel progression: unseen → seen → recognized → canWrite
+SM-2 algorithm in MasteryService.applyReview(charId, quality 0–5).
+getDueCardIds() returns overdue cards sorted by dueDate for daily practice queue.
+PracticeScreen routes cards: flashcard UI for unseen/seen, trace canvas for recognized, free draw for canWrite.
+WritingScreen shows stroke animation + drawing canvas + score panel; Done/Try Again updates SM-2.
+Home screen shows per-lesson mastery micro-bar and a "cards due" practice banner when reviews are pending.
 
 ---
 

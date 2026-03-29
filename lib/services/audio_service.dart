@@ -55,7 +55,7 @@ class AudioService {
       await _player.setAudioSource(AudioSource.asset(assetPath));
       await _player.play();
       return true;
-    } on FlutterError {
+    } on Exception {
       // Asset not found in bundle
       return false;
     } catch (_) {

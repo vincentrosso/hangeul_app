@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'services/audio_service.dart';
+import 'services/mastery_service.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_screen.dart';
 
@@ -19,6 +20,9 @@ void main() async {
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.dark,
   ));
+
+  // Init mastery service (load persisted spaced repetition data)
+  await MasteryService.instance.load();
 
   // Init audio (pre-warms flutter_tts ko-KR voice)
   await AudioService.instance.init();

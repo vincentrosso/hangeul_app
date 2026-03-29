@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data/lessons.dart';
 import '../models/models.dart';
-import '../services/progress_service.dart';
+import '../services/mastery_service.dart';
 import '../theme/app_theme.dart';
 import 'lesson_screen.dart';
+import 'practice_screen.dart';
 import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +17,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Set<int> _completed = {};
+  Map<int, Map<MasteryLevel, int>> _lessonMastery = {};
+  int _dueCount = 0;
 
   static const _heroChars = ['가','나','다','라','마','바','사','아'];
 
@@ -26,8 +29,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _load() async {
-    final c = await ProgressService.loadCompleted();
-    if (mounted) setState(() => _completed = c);
+    final completed = await MasteryService.instance.getCompletedLessonNumbers(kLessons);
+    final allCards = kLessons.expand((l) => l.chars).toList();
+    final dueIds = MasteryService.instance.getDueCardIds(allCards);
+
+    // Build per-lesson mastery counts
+    final mastery = <int, Map<MasteryLevel, int>>{};
+    for (final lesson in kLessons) {
+      final counts = <MasteryLevel, int>{};
+      for (final level in MasteryLevel.values) {
+        counts[level] = 0;
+      }
+      for (final card in lesson.chars) {
+        final m = MasteryService.instance.get(card.audioStem).level;
+        counts[m] = (counts[m] ?? 0) + 1;
+      }
+      mastery[lesson.number] = counts;
+    }
+
+    if (mounted) {
+      setState(() {
+        _completed = completed;
+        _lessonMastery = mastery;
+        _dueCount = dueIds.length;
+      });
+    }
   }
 
   String get _heroChar =>
@@ -75,6 +101,10 @@ class _HomeScreenState extends State<HomeScreen> {
           // Hero
           SliverToBoxAdapter(child: _buildHero()),
 
+          // Practice banner
+          if (_dueCount > 0)
+            SliverToBoxAdapter(child: _buildPracticeBanner()),
+
           // Section label
           SliverToBoxAdapter(
             child: Padding(
@@ -103,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 isNext: !_completed.contains(kLessons[i].number) &&
                     (i == 0 ||
                         _completed.contains(kLessons[i - 1].number)),
+                masteryCount: _lessonMastery[kLessons[i].number] ?? {},
                 onTap: () async {
                   await Navigator.push(
                     context,
@@ -110,7 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (_) => LessonScreen(
                         lesson: kLessons[i],
                         onComplete: () async {
-                          await ProgressService.markComplete(kLessons[i].number);
+                          // Mark all chars as seen when completing
+                          for (final c in kLessons[i].chars) {
+                            await MasteryService.instance.markSeen(c.audioStem);
+                          }
                           _load();
                         },
                       ),
@@ -135,6 +169,71 @@ class _HomeScreenState extends State<HomeScreen> {
           // Footer quote
           SliverToBoxAdapter(child: _buildFooter()),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPracticeBanner() {
+    return GestureDetector(
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PracticeScreen(lessons: kLessons),
+          ),
+        );
+        _load();
+      },
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppTheme.accent.withOpacity(0.08),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppTheme.accent.withOpacity(0.3)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 36, height: 36,
+              decoration: BoxDecoration(
+                color: AppTheme.accent.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: const Icon(
+                Icons.local_fire_department_outlined,
+                color: AppTheme.accent,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'PRACTICE · 연습',
+                    style: GoogleFonts.dmMono(
+                      fontSize: 10, letterSpacing: 2, color: AppTheme.accent,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '$_dueCount card${_dueCount == 1 ? '' : 's'} due for review',
+                    style: GoogleFonts.dmMono(
+                      fontSize: 12, color: AppTheme.ink,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 14,
+              color: AppTheme.accent.withOpacity(0.6),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -198,6 +297,7 @@ class _LessonRow extends StatelessWidget {
   final Lesson lesson;
   final bool isDone;
   final bool isNext;
+  final Map<MasteryLevel, int> masteryCount;
   final VoidCallback onTap;
   final VoidCallback onQuizTap;
 
@@ -205,6 +305,7 @@ class _LessonRow extends StatelessWidget {
     required this.lesson,
     required this.isDone,
     required this.isNext,
+    required this.masteryCount,
     required this.onTap,
     required this.onQuizTap,
   });
@@ -240,7 +341,7 @@ class _LessonRow extends StatelessWidget {
             // Info
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 18, 12, 18),
+                padding: const EdgeInsets.fromLTRB(20, 14, 12, 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -250,7 +351,7 @@ class _LessonRow extends StatelessWidget {
                         fontSize: 15, color: AppTheme.ink,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 2),
                     Text(
                       lesson.titleKr,
                       style: GoogleFonts.notoSansKr(
@@ -258,6 +359,9 @@ class _LessonRow extends StatelessWidget {
                         fontWeight: FontWeight.w300,
                       ),
                     ),
+                    const SizedBox(height: 6),
+                    // Mastery micro-bar
+                    _MasteryBar(counts: masteryCount, total: lesson.chars.length),
                   ],
                 ),
               ),
@@ -331,6 +435,62 @@ class _LessonRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MasteryBar extends StatelessWidget {
+  final Map<MasteryLevel, int> counts;
+  final int total;
+
+  const _MasteryBar({required this.counts, required this.total});
+
+  @override
+  Widget build(BuildContext context) {
+    if (total == 0) return const SizedBox.shrink();
+
+    final seenN = counts[MasteryLevel.seen] ?? 0;
+    final recognizedN = counts[MasteryLevel.recognized] ?? 0;
+    final canWriteN = counts[MasteryLevel.canWrite] ?? 0;
+
+    return Row(
+      children: [
+        // Segmented bar
+        Expanded(
+          child: SizedBox(
+            height: 4,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(2),
+              child: Row(
+                children: [
+                  _seg(
+                    (total - seenN - recognizedN - canWriteN) / total,
+                    Colors.black12,
+                  ),
+                  _seg(seenN / total, const Color(0xFFAAAAAA)),
+                  _seg(recognizedN / total, const Color(0xFFD4A017)),
+                  _seg(canWriteN / total, AppTheme.done),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          '$canWriteN/$total',
+          style: GoogleFonts.dmMono(
+            fontSize: 9, color: AppTheme.lightMuted,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _seg(double frac, Color color) {
+    if (frac <= 0) return const SizedBox.shrink();
+    return Expanded(
+      flex: (frac * 1000).round(),
+      child: Container(color: color),
     );
   }
 }

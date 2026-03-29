@@ -7,7 +7,13 @@ import '../theme/app_theme.dart';
 
 class CharCardWidget extends StatefulWidget {
   final CharCard card;
-  const CharCardWidget({super.key, required this.card});
+  final MasteryLevel? mastery;
+
+  const CharCardWidget({
+    super.key,
+    required this.card,
+    this.mastery,
+  });
 
   @override
   State<CharCardWidget> createState() => _CharCardWidgetState();
@@ -61,6 +67,21 @@ class _CharCardWidgetState extends State<CharCardWidget>
     return 'Google Neural TTS';
   }
 
+  Color? get _masteryPipColor {
+    switch (widget.mastery) {
+      case MasteryLevel.unseen:
+        return null; // no pip
+      case MasteryLevel.seen:
+        return const Color(0xFFAAAAAA);
+      case MasteryLevel.recognized:
+        return const Color(0xFFD4A017);
+      case MasteryLevel.canWrite:
+        return AppTheme.done;
+      case null:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -93,6 +114,19 @@ class _CharCardWidgetState extends State<CharCardWidget>
                 ),
               ),
             ),
+
+            // Mastery pip (bottom-left)
+            if (_masteryPipColor != null)
+              Positioned(
+                bottom: 6, left: 6,
+                child: Container(
+                  width: 6, height: 6,
+                  decoration: BoxDecoration(
+                    color: _masteryPipColor,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
 
             // Card content
             Padding(
