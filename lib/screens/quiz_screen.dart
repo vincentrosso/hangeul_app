@@ -356,6 +356,17 @@ class _FlashcardViewState extends State<_FlashcardView>
   bool _flipped = false;
   bool _answered = false;
 
+  // Extract the Korean example word if it's multi-syllable and contains the card's char.
+  String? get _exampleWord {
+    final match = RegExp(r'[가-힣]+').firstMatch(widget.card.example);
+    if (match == null) return null;
+    final word = match.group(0)!;
+    final syllables = word.runes.where((r) => r >= 0xAC00 && r <= 0xD7A3).length;
+    if (syllables < 2) return null;
+    if (!word.contains(widget.card.char)) return null;
+    return word;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -384,27 +395,39 @@ class _FlashcardViewState extends State<_FlashcardView>
 
   @override
   Widget build(BuildContext context) {
+    final exampleWord = _exampleWord;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Column(
         children: [
-          // Card
+          // Card + optional context card
           Expanded(
-            child: GestureDetector(
-              onTap: _flipped ? null : _doFlip,
-              child: AnimatedBuilder(
-                animation: _angle,
-                builder: (_, __) {
-                  final showFront = _angle.value < pi / 2;
-                  return Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.001)
-                      ..rotateY(_angle.value),
-                    child: showFront ? _cardFront() : _cardBack(),
-                  );
-                },
-              ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: _flipped ? null : _doFlip,
+                    child: AnimatedBuilder(
+                      animation: _angle,
+                      builder: (_, __) {
+                        final showFront = _angle.value < pi / 2;
+                        return Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateY(_angle.value),
+                          child: showFront ? _cardFront() : _cardBack(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                if (_flipped && exampleWord != null) ...[
+                  const SizedBox(height: 8),
+                  _exampleWordCard(exampleWord),
+                ],
+              ],
             ),
           ),
 
@@ -514,6 +537,73 @@ class _FlashcardViewState extends State<_FlashcardView>
             _listenBtn(() => AudioService.instance.play(widget.card)),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _exampleWordCard(String word) {
+    final charIdx = word.indexOf(widget.card.char);
+    final before = charIdx > 0 ? word.substring(0, charIdx) : '';
+    final after = charIdx + widget.card.char.length < word.length
+        ? word.substring(charIdx + widget.card.char.length)
+        : '';
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF12180E),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xFF4CAF7D).withOpacity(0.15),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: RichText(
+                text: TextSpan(
+                  style: GoogleFonts.notoSerifKr(
+                    fontSize: 34, fontWeight: FontWeight.w700,
+                  ),
+                  children: [
+                    if (before.isNotEmpty)
+                      TextSpan(
+                        text: before,
+                        style: const TextStyle(color: Colors.white30),
+                      ),
+                    TextSpan(
+                      text: widget.card.char,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    if (after.isNotEmpty)
+                      TextSpan(
+                        text: after,
+                        style: const TextStyle(color: Colors.white30),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => AudioService.instance.playChar(word),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white24),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                '▶  Listen',
+                style: GoogleFonts.dmMono(
+                  fontSize: 10, color: Colors.white38, letterSpacing: 0.5,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

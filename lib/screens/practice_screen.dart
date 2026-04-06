@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data/lessons.dart';
 import '../models/models.dart';
+import '../services/audio_service.dart';
 import '../services/mastery_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/drawing_canvas_widget.dart';
@@ -348,59 +349,147 @@ class _FlashcardReview extends StatefulWidget {
 class _FlashcardReviewState extends State<_FlashcardReview> {
   bool _revealed = false;
 
+  String? get _exampleWord {
+    final match = RegExp(r'[가-힣]+').firstMatch(widget.card.example);
+    if (match == null) return null;
+    final word = match.group(0)!;
+    final syllables = word.runes.where((r) => r >= 0xAC00 && r <= 0xD7A3).length;
+    if (syllables < 2) return null;
+    if (!word.contains(widget.card.char)) return null;
+    return word;
+  }
+
+  Widget _exampleWordCard(String word) {
+    final charIdx = word.indexOf(widget.card.char);
+    final before = charIdx > 0 ? word.substring(0, charIdx) : '';
+    final after = charIdx + widget.card.char.length < word.length
+        ? word.substring(charIdx + widget.card.char.length)
+        : '';
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF12180E),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xFF4CAF7D).withOpacity(0.15),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: RichText(
+                text: TextSpan(
+                  style: GoogleFonts.notoSerifKr(
+                    fontSize: 34, fontWeight: FontWeight.w700,
+                  ),
+                  children: [
+                    if (before.isNotEmpty)
+                      TextSpan(
+                        text: before,
+                        style: const TextStyle(color: Colors.white30),
+                      ),
+                    TextSpan(
+                      text: widget.card.char,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    if (after.isNotEmpty)
+                      TextSpan(
+                        text: after,
+                        style: const TextStyle(color: Colors.white30),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => AudioService.instance.playChar(word),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white24),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                '▶  Listen',
+                style: GoogleFonts.dmMono(
+                  fontSize: 10, color: Colors.white38, letterSpacing: 0.5,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final exampleWord = _exampleWord;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
           Expanded(
-            child: GestureDetector(
-              onTap: _revealed ? null : () => setState(() => _revealed = true),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E1810),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withOpacity(0.07)),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (!_revealed)
-                      Text(
-                        'TAP TO REVEAL',
-                        style: GoogleFonts.dmMono(
-                          fontSize: 10, letterSpacing: 2, color: Colors.white24,
-                        ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: _revealed ? null : () => setState(() => _revealed = true),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E1810),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white.withOpacity(0.07)),
                       ),
-                    const SizedBox(height: 16),
-                    Text(
-                      widget.card.char,
-                      style: GoogleFonts.notoSerifKr(
-                        fontSize: 80,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (!_revealed)
+                            Text(
+                              'TAP TO REVEAL',
+                              style: GoogleFonts.dmMono(
+                                fontSize: 10, letterSpacing: 2, color: Colors.white24,
+                              ),
+                            ),
+                          const SizedBox(height: 16),
+                          Text(
+                            widget.card.char,
+                            style: GoogleFonts.notoSerifKr(
+                              fontSize: 80,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                          if (_revealed) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              widget.card.romanized,
+                              style: GoogleFonts.dmMono(
+                                fontSize: 28, color: Colors.white, letterSpacing: 1,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              widget.card.example,
+                              style: GoogleFonts.notoSansKr(
+                                fontSize: 14, color: Colors.white38,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                    if (_revealed) ...[
-                      const SizedBox(height: 12),
-                      Text(
-                        widget.card.romanized,
-                        style: GoogleFonts.dmMono(
-                          fontSize: 28, color: Colors.white, letterSpacing: 1,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        widget.card.example,
-                        style: GoogleFonts.notoSansKr(
-                          fontSize: 14, color: Colors.white38,
-                        ),
-                      ),
-                    ],
-                  ],
+                  ),
                 ),
-              ),
+                if (_revealed && exampleWord != null) ...[
+                  const SizedBox(height: 8),
+                  _exampleWordCard(exampleWord),
+                ],
+              ],
             ),
           ),
           const SizedBox(height: 16),
