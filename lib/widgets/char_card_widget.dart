@@ -134,19 +134,25 @@ class _CharCardWidgetState extends State<CharCardWidget>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Big Korean character
-                  Text(
-                    widget.card.char,
-                    style: GoogleFonts.notoSerifKr(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w700,
-                      color: _playing ? AppTheme.accent : AppTheme.ink,
+                  // Big Korean character — shrink-to-fit for long loan words like 에스컬레이터
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      widget.card.char,
+                      maxLines: 1,
+                      style: GoogleFonts.notoSerifKr(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w700,
+                        color: _playing ? AppTheme.accent : AppTheme.ink,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
                   // Romanization
                   Text(
                     widget.card.romanized,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.dmMono(
                       fontSize: 11,
                       color: AppTheme.muted,
@@ -158,6 +164,8 @@ class _CharCardWidgetState extends State<CharCardWidget>
                   Text(
                     widget.card.example,
                     textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.notoSansKr(
                       fontSize: 9,
                       color: AppTheme.lightMuted,

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한글 · Korean Alphabet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #130e08;
+      --bg2:       #1a1409;
+      --bg3:       #1e1810;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #fbf6ea;
+      --dim:       rgba(251,246,234,0.85);
+      --faint:     rgba(251,246,234,0.65);
+      --accent:    #c9a96e;
+      --accent-bg: rgba(201,169,110,0.10);
+      --accent-bd: rgba(201,169,110,0.32);
+      --blue:      #4a90d9;
+      --blue-bg:   rgba(74,144,217,0.10);
+      --blue-bd:   rgba(74,144,217,0.36);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 24px;
+    }
+
+    .logo {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .header-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 16px;
+      color: var(--faint);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      letter-spacing: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .header-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent-bd);
+    }
+
+    .header-collapsible {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .header-collapsible.open {
+      max-height: 320px;
+      padding-bottom: 32px;
+    }
+
+    .tagline {
+      font-size: 16px;
+      letter-spacing: 4px;
+      color: var(--faint);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-top: 24px;
+    }
+
+    .header-desc {
+      font-size: 16px;
+      color: var(--dim);
+      max-width: 520px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+
+    /* ── Nav (lives inside collapsible) ─────────────────────────── */
+    .lesson-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px 16px;
+    }
+
+    .lesson-nav a {
+      font-size: 16px;
+      letter-spacing: 1px;
+      color: var(--faint);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 8px 16px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .lesson-nav a:hover {
+      color: var(--accent);
+      border-color: var(--accent-bd);
+    }
+
+    /* ── Sections ────────────────────────────────────────────────── */
+    .lesson {
+      padding: 52px 28px 0;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .lesson + .lesson {
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .lesson-meta {
+      display: flex;
+      align-items: flex-start;
+      gap: 48px;
+      margin-bottom: 32px;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.15s;
+    }
+    .lesson-meta:hover { opacity: 0.85; }
+
+    .lesson-meta-left { flex-shrink: 0; }
+
+    .chev {
+      display: inline-block;
+      margin-left: 10px;
+      transition: transform 0.2s;
+      font-size: 14px;
+      color: var(--faint);
+    }
+    .lesson.collapsed .chev { transform: rotate(-90deg); }
+    .lesson.collapsed .cards { display: none; }
+    .lesson.collapsed { margin-bottom: 0; }
+
+    .lesson-label {
+      font-size: 16px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .lesson-title {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .lesson-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    .lesson-note {
+      flex: 1;
+      font-size: 16px;
+      color: var(--faint);
+      line-height: 1.7;
+      max-width: 560px;
+      padding-top: 16px;
+    }
+
+    /* ── Card grid ───────────────────────────────────────────────── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    /* ── Individual card ─────────────────────────────────────────── */
+    .card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    /* ── Jump links inside word ──────────────────────────────────── */
+    .wlink {
+      border-bottom: 1px solid rgba(74,144,217,0.45);
+      cursor: pointer;
+      transition: color 0.12s;
+    }
+
+    .wlink:hover { color: var(--blue); }
+
+    @keyframes cardFlash {
+      0%   { border-color: rgba(74,144,217,0.9); box-shadow: 0 0 0 4px rgba(74,144,217,0.3); }
+      60%  { border-color: rgba(74,144,217,0.6); box-shadow: 0 0 0 2px rgba(74,144,217,0.15); }
+      100% { border-color: var(--border); box-shadow: none; }
+    }
+
+    .card.highlight { animation: cardFlash 2s ease-out forwards; }
+
+    .card.dimmed {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    /* Temporary card that appears beside the source card on wlink click */
+    .card[data-temp] {
+      border-color: rgba(74,144,217,0.5);
+      background: #161c24;
+      transition: opacity 0.3s ease;
+      justify-content: center;
+    }
+
+    /* ── Syllable breakdown overlay ──────────────────────────────── */
+    .syl-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(19,14,8,0.92);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .syl-overlay.visible { opacity: 1; }
+
+    .syl-source {
+      background: var(--bg3);
+      border: 1px solid var(--accent-bd);
+      border-radius: 14px;
+      padding: 24px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 220px;
+    }
+    .syl-source .glyph {
+      font-size: 96px;
+      cursor: default;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .syl-source .glyph:hover { transform: none; color: var(--accent); }
+    .syl-source .romanized { color: var(--faint); margin-bottom: 0; }
+
+    .syl-arrow {
+      font-size: 32px;
+      color: var(--faint);
+      line-height: 1;
+    }
+
+    .syl-jamo-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .syl-jamo-row .card {
+      min-width: 130px;
+      cursor: pointer;
+      animation: sylJamoIn 0.35s ease-out backwards;
+    }
+    .syl-jamo-row .card:nth-child(1) { animation-delay: 0.05s; }
+    .syl-jamo-row .card:nth-child(2) { animation-delay: 0.15s; }
+    .syl-jamo-row .card:nth-child(3) { animation-delay: 0.25s; }
+    @keyframes sylJamoIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-1px);
+    }
+
+    /* ── Glyph ───────────────────────────────────────────────────── */
+    .glyph {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 68px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.15s, transform 0.12s;
+    }
+
+    .glyph:hover  { color: #fff; transform: scale(1.06); }
+    .glyph:active { transform: scale(0.97); }
+    .glyph.lit    { color: var(--accent); }
+
+    /* ── Loan-word section: wider cards, horizontal one-line word ─── */
+    #lesson-7 .cards {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    /* Top syllables: narrower cards since each is one syllable */
+    #lesson-8 .cards {
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+    .loan-card { padding: 20px 14px 14px; }
+    .loan-card .glyph {
+      font-size: 57px;
+      white-space: nowrap;
+      margin-bottom: 8px;
+    }
+    .loan-card .romanized {
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .loan-card .word-en {
+      font-size: 16px;
+      margin-top: 0 !important;
+      margin-bottom: 12px;
+      min-height: 0;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--faint);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+    .copy-btn:hover { color: var(--text); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+    .copy-btn.copied { color: var(--blue); border-color: var(--blue-bd); }
+    .loan-card { position: relative; }
+
+    .romanized {
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: var(--faint);
+      margin-bottom: 16px;
+    }
+
+    /* ── Word section ────────────────────────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 14px;
+    }
+
+    .word {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--dim);
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 4px;
+      text-align: center;
+      transition: color 0.15s;
+    }
+
+    .word:hover  { color: var(--text); }
+    .word:active { transform: scale(0.97); }
+    .word.lit    { color: var(--blue); }
+
+    .word-en {
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      color: var(--faint);
+      text-align: center;
+      margin-bottom: 14px;
+      min-height: 20px;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 56px 24px 32px;
+      font-size: 16px;
+      letter-spacing: 1px;
+      color: var(--faint);
+      border-top: 1px solid var(--border);
+      margin-top: 72px;
+    }
+
+    @media (max-width: 600px) {
+      .lesson-meta { flex-direction: column; gap: 8px; }
+      .lesson-note { padding-top: 0; }
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 44px; }
+      .lesson { padding: 40px 16px 0; }
+      .lesson + .lesson { padding-top: 40px; margin-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-bar">
+    <div class="logo">한글</div>
+    <button class="header-toggle" id="headerToggle">▾ intro</button>
+  </div>
+  <div class="header-collapsible" id="headerCollapsible">
+    <div class="tagline">Korean Alphabet</div>
+    <p class="header-desc">Tap a character to hear it. Tap the word to hear it. Or tap anywhere on the card to hear them in sequence.</p>
+  </div>
+  <nav class="lesson-nav" id="nav"></nav>
+</header>
+
+<main id="main"></main>
+
+<footer>한글 · Korean Alphabet Guide</footer>
+
+<script>
+const LESSONS = [
+  {
+    n: 1,
+    en: 'Basic Vowels',
+    kr: '한글의 기본 모음',
+    note: 'Korean has 10 basic vowels. They always combine with a silent consonant placeholder (ㅇ) when written alone.',
+    chars: [
+      { char: '아', rom: 'a',      word: '아이',   wEn: 'child' },
+      { char: '야', rom: 'ya',     word: '야구',   wEn: 'baseball' },
+      { char: '어', rom: 'eo',     word: '어머니', wEn: 'mother' },
+      { char: '여', rom: 'yeo',    word: '여자',   wEn: 'woman' },
+      { char: '오', rom: 'o',      word: '오리',   wEn: 'duck' },
+      { char: '요', rom: 'yo',     word: '요리',   wEn: 'cooking' },
+      { char: '우', rom: 'u',      word: '우유',   wEn: 'milk' },
+      { char: '유', rom: 'yu',     word: '유리',   wEn: 'glass' },
+      { char: '으', rom: 'eu',     word: '으뜸',   wEn: 'top / best' },
+      { char: '이', rom: 'i',      word: '이름',   wEn: 'name' },
+    ],
+  },
+  {
+    n: 2,
+    en: 'Basic Consonants',
+    kr: '한글의 기본 자음',
+    note: '14 basic consonants, each shaped after the mouth position that produces the sound.',
+    chars: [
+      { char: '가', rom: 'g/k',    word: '가방',   wEn: 'bag' },
+      { char: '나', rom: 'n',      word: '나무',   wEn: 'tree' },
+      { char: '다', rom: 'd/t',    word: '다리',   wEn: 'bridge' },
+      { char: '라', rom: 'r/l',    word: '라디오', wEn: 'radio' },
+      { char: '마', rom: 'm',      word: '마음',   wEn: 'heart' },
+      { char: '바', rom: 'b/p',    word: '바다',   wEn: 'sea' },
+      { char: '사', rom: 's',      word: '사랑',   wEn: 'love' },
+      { char: '아', rom: 'silent', word: '아침',   wEn: 'morning' },
+      { char: '자', rom: 'j',      word: '자다',   wEn: 'to sleep' },
+      { char: '하', rom: 'h',      word: '하늘',   wEn: 'sky' },
+    ],
+  },
+  {
+    n: 3,
+    en: 'Aspirated Consonants',
+    kr: '거센소리 자음',
+    note: 'These 4 consonants are aspirated — released with a puff of air. Korean makes the aspirated / unaspirated distinction explicit in its alphabet.',
+    chars: [
+      { char: '카', rom: 'k',      word: '카페',   wEn: 'café' },
+      { char: '타', rom: 't',      word: '타다',   wEn: 'to ride' },
+      { char: '파', rom: 'p',      word: '파도',   wEn: 'wave' },
+      { char: '차', rom: 'ch',     word: '차',     wEn: 'tea / car' },
+    ],
+  },
+  {
+    n: 4,
+    en: 'Compound Vowels',
+    kr: '합성 모음',
+    note: 'Compound vowels blend two basic vowels. Your mouth starts in one position and glides to another.',
+    chars: [
+      { char: '애', rom: 'ae',     word: '애인',   wEn: 'lover' },
+      { char: '에', rom: 'e',      word: '에어컨', wEn: 'air conditioner' },
+      { char: '얘', rom: 'yae',    word: '얘기',   wEn: 'story / talk' },
+      { char: '예', rom: 'ye',     word: '예쁘다', wEn: 'pretty' },
+      { char: '와', rom: 'wa',     word: '와인',   wEn: 'wine' },
+      { char: '왜', rom: 'wae',    word: '왜냐면', wEn: 'because' },
+      { char: '외', rom: 'oe',     word: '외국',   wEn: 'foreign country' },
+      { char: '워', rom: 'wo',     word: '워크샵', wEn: 'workshop' },
+      { char: '웨', rom: 'we',     word: '웨딩',   wEn: 'wedding' },
+      { char: '위', rom: 'wi',     word: '위험',   wEn: 'danger' },
+      { char: '의', rom: 'ui',     word: '의사',   wEn: 'doctor' },
+    ],
+  },
+  {
+    n: 5,
+    en: '"Y" Sounds',
+    kr: "한글의 'Y' 소리",
+    note: 'No standalone "Y" letter — an extra stroke added to a vowel creates the Y-glide. ㅏ → ㅑ (a → ya). One stroke becomes two.',
+    chars: [
+      { char: '야', rom: 'ya',     word: '야채',   wEn: 'vegetable' },
+      { char: '여', rom: 'yeo',    word: '여행',   wEn: 'travel' },
+      { char: '요', rom: 'yo',     word: '요가',   wEn: 'yoga' },
+      { char: '유', rom: 'yu',     word: '유행',   wEn: 'trend / fashion' },
+      { char: '얘', rom: 'yae',    word: '얘기',   wEn: 'talk' },
+      { char: '예', rom: 'ye',     word: '예의',   wEn: 'courtesy' },
+    ],
+  },
+  {
+    n: 6,
+    en: 'Final Consonants',
+    kr: '받침',
+    note: '받침 sit at the bottom of a syllable block. The final consonant subtly closes the sound — it is not fully released in Korean.',
+    chars: [
+      { char: '닭', rom: 'dak',    word: '닭고기', wEn: 'chicken meat' },
+      { char: '밥', rom: 'bap',    word: '밥그릇', wEn: 'rice bowl' },
+      { char: '책', rom: 'chaek',  word: '책상',   wEn: 'desk' },
+      { char: '물', rom: 'mul',    word: '물병',   wEn: 'water bottle' },
+      { char: '산', rom: 'san',    word: '산책',   wEn: 'stroll / walk' },
+      { char: '봄', rom: 'bom',    word: '봄바람', wEn: 'spring breeze' },
+      { char: '강', rom: 'gang',   word: '강물',   wEn: 'river water' },
+    ],
+  },
+  {
+    n: 7,
+    en: 'Loan Words',
+    kr: '외래어',
+    note: 'Korean borrows hundreds of words from English, written phonetically in Hangeul. If you can read 한글, you can read these — and you already know what they mean. Sorted in Korean alphabetical (가나다) order.',
+    chars: [
+      { char: '게임',         rom: 'geim',           wEn: 'game' },
+      { char: '골프',         rom: 'golpeu',         wEn: 'golf' },
+      { char: '기타',         rom: 'gita',           wEn: 'guitar' },
+      { char: '뉴스',         rom: 'nyuseu',         wEn: 'news' },
+      { char: '다이어트',     rom: 'daieoteu',       wEn: 'diet' },
+      { char: '댄스',         rom: 'daenseu',        wEn: 'dance' },
+      { char: '데이터',       rom: 'deiteo',         wEn: 'data' },
+      { char: '데이트',       rom: 'deiteu',         wEn: 'date (romantic)' },
+      { char: '드라마',       rom: 'deurama',        wEn: 'drama (TV show)' },
+      { char: '드레스',       rom: 'deureseu',       wEn: 'dress' },
+      { char: '디자인',       rom: 'dijain',         wEn: 'design' },
+      { char: '디저트',       rom: 'dijeoteu',       wEn: 'dessert' },
+      { char: '라디오',       rom: 'radio',          wEn: 'radio' },
+      { char: '레몬',         rom: 'remon',          wEn: 'lemon' },
+      { char: '로션',         rom: 'rosyeon',        wEn: 'lotion' },
+      { char: '리더',         rom: 'rideo',          wEn: 'leader' },
+      { char: '리포트',       rom: 'riporteu',       wEn: 'report' },
+      { char: '마라톤',       rom: 'maraton',        wEn: 'marathon' },
+      { char: '마우스',       rom: 'mauseu',         wEn: 'mouse' },
+      { char: '마케팅',       rom: 'maketing',       wEn: 'marketing' },
+      { char: '마트',         rom: 'mateu',          wEn: 'mart' },
+      { char: '매니저',       rom: 'maenijeo',       wEn: 'manager' },
+      { char: '메뉴',         rom: 'menyu',          wEn: 'menu' },
+      { char: '모델',         rom: 'model',          wEn: 'model' },
+      { char: '모텔',         rom: 'motel',          wEn: 'motel' },
+      { char: '무비',         rom: 'mubi',           wEn: 'movie' },
+      { char: '미팅',         rom: 'miting',         wEn: 'meeting (Konglish: blind date)' },
+      { char: '바나나',       rom: 'banana',         wEn: 'banana' },
+      { char: '버스',         rom: 'beoseu',         wEn: 'bus' },
+      { char: '버터',         rom: 'beoteo',         wEn: 'butter' },
+      { char: '벨트',         rom: 'belteu',         wEn: 'belt' },
+      { char: '볼링',         rom: 'bolling',        wEn: 'bowling' },
+      { char: '부츠',         rom: 'bucheu',         wEn: 'boots' },
+      { char: '블로그',       rom: 'beullogeu',      wEn: 'blog' },
+      { char: '비디오',       rom: 'bidio',          wEn: 'video' },
+      { char: '비자',         rom: 'bija',           wEn: 'visa' },
+      { char: '비즈니스',     rom: 'bijeuniseu',     wEn: 'business' },
+      { char: '빌딩',         rom: 'bilding',        wEn: 'building' },
+      { char: '사이트',       rom: 'saiteu',         wEn: '(web)site' },
+      { char: '샌드위치',     rom: 'saendeuwichi',   wEn: 'sandwich' },
+      { char: '샐러드',       rom: 'saelleodeu',     wEn: 'salad' },
+      { char: '샴푸',         rom: 'syampu',         wEn: 'shampoo' },
+      { char: '서비스',       rom: 'seobiseu',       wEn: 'service' },
+      { char: '선글라스',     rom: 'seongeullaseu',  wEn: 'sunglasses' },
+      { char: '셔츠',         rom: 'syeocheu',       wEn: 'shirt' },
+      { char: '소스',         rom: 'soseu',          wEn: 'sauce' },
+      { char: '스카프',       rom: 'seukapeu',       wEn: 'scarf' },
+      { char: '스커트',       rom: 'seukeoteu',      wEn: 'skirt' },
+      { char: '스케이트',     rom: 'seukeiteu',      wEn: 'skate' },
+      { char: '스케줄',       rom: 'seukejul',       wEn: 'schedule' },
+      { char: '스키',         rom: 'seuki',          wEn: 'ski' },
+      { char: '스타',         rom: 'seuta',          wEn: 'star (celebrity)' },
+      { char: '스테이크',     rom: 'seuteikeu',      wEn: 'steak' },
+      { char: '시스템',       rom: 'siseutem',       wEn: 'system' },
+      { char: '아이돌',       rom: 'aidol',          wEn: 'idol' },
+      { char: '아이스크림',   rom: 'aiseukeurim',    wEn: 'ice cream' },
+      { char: '아파트',       rom: 'apateu',         wEn: 'apartment' },
+      { char: '앱',           rom: 'aep',            wEn: 'app' },
+      { char: '에스컬레이터', rom: 'eseukeolleiteo', wEn: 'escalator' },
+      { char: '엘리베이터',   rom: 'ellibeiteo',     wEn: 'elevator' },
+      { char: '오렌지',       rom: 'orenji',         wEn: 'orange' },
+      { char: '오피스',       rom: 'opiseu',         wEn: 'office' },
+      { char: '오피스텔',     rom: 'opiseutel',      wEn: 'studio apt (office + hotel)' },
+      { char: '와인',         rom: 'wain',           wEn: 'wine' },
+      { char: '요가',         rom: 'yoga',           wEn: 'yoga' },
+      { char: '요거트',       rom: 'yogeoteu',       wEn: 'yogurt' },
+      { char: '워크숍',       rom: 'wokeusyop',      wEn: 'workshop' },
+      { char: '웨딩',         rom: 'weding',         wEn: 'wedding' },
+      { char: '이메일',       rom: 'imeil',          wEn: 'email' },
+      { char: '이벤트',       rom: 'ibenteu',        wEn: 'event' },
+      { char: '인터넷',       rom: 'inteonet',       wEn: 'internet' },
+      { char: '재킷',         rom: 'jaekit',         wEn: 'jacket' },
+      { char: '주스',         rom: 'juseu',          wEn: 'juice' },
+      { char: '진',           rom: 'jin',            wEn: 'jeans' },
+      { char: '초콜릿',       rom: 'chokollit',      wEn: 'chocolate' },
+      { char: '치즈',         rom: 'chijeu',         wEn: 'cheese' },
+      { char: '카드',         rom: 'kadeu',          wEn: 'card' },
+      { char: '카메라',       rom: 'kamera',         wEn: 'camera' },
+      { char: '캠핑',         rom: 'kaemping',       wEn: 'camping' },
+      { char: '캡',           rom: 'kaep',           wEn: 'cap' },
+      { char: '커피',         rom: 'keopi',          wEn: 'coffee' },
+      { char: '컴퓨터',       rom: 'keompyuteo',     wEn: 'computer' },
+      { char: '케이크',       rom: 'keikeu',         wEn: 'cake' },
+      { char: '케첩',         rom: 'kechap',         wEn: 'ketchup' },
+      { char: '코트',         rom: 'koteu',          wEn: 'coat' },
+      { char: '콘서트',       rom: 'konseoteu',      wEn: 'concert' },
+      { char: '콜라',         rom: 'kolla',          wEn: 'cola' },
+      { char: '쿠키',         rom: 'kuki',           wEn: 'cookie' },
+      { char: '키보드',       rom: 'kibodeu',        wEn: 'keyboard' },
+      { char: '택시',         rom: 'taeksi',         wEn: 'taxi' },
+      { char: '테니스',       rom: 'teniseu',        wEn: 'tennis' },
+      { char: '텔레비전',     rom: 'tellebijeon',    wEn: 'television' },
+      { char: '토스트',       rom: 'toseuteu',       wEn: 'toast' },
+      { char: '투어',         rom: 'tueo',           wEn: 'tour' },
+      { char: '티셔츠',       rom: 'tisyeocheu',     wEn: 't-shirt' },
+      { char: '티켓',         rom: 'tiket',          wEn: 'ticket' },
+      { char: '팀',           rom: 'tim',            wEn: 'team' },
+      { char: '파스타',       rom: 'paseuta',        wEn: 'pasta' },
+      { char: '파일',         rom: 'pail',           wEn: 'file' },
+      { char: '파티',         rom: 'pati',           wEn: 'party' },
+      { char: '팬',           rom: 'paen',           wEn: 'fan' },
+      { char: '프로젝트',     rom: 'peurojekteu',    wEn: 'project' },
+      { char: '프린터',       rom: 'peurinteo',      wEn: 'printer' },
+      { char: '피아노',       rom: 'piano',          wEn: 'piano' },
+      { char: '피자',         rom: 'pija',           wEn: 'pizza' },
+      { char: '햄버거',       rom: 'haembeogeo',     wEn: 'hamburger' },
+      { char: '허니문',       rom: 'heonimun',       wEn: 'honeymoon' },
+      { char: '헬스',         rom: 'helseu',         wEn: 'gym (from "health")' },
+      { char: '호텔',         rom: 'hotel',          wEn: 'hotel' },
+    ],
+  },
+  {
+    n: 8,
+    en: 'Top 100 Syllables',
+    kr: '자주 쓰는 음절',
+    note: 'The 100 most common Korean syllables, ordered roughly by corpus frequency. Most are grammatical particles, verb endings, or high-frequency Sino-Korean roots. About ~500 syllables cover 95% of running Korean text — these top 100 will get you a long way. Tap a card to hear it; tap the syllable for the jamo breakdown.',
+    chars: [
+      { char: '이', rom: 'i',     wEn: 'this / two / subject marker' },
+      { char: '다', rom: 'da',    wEn: 'verb ending (do/be)' },
+      { char: '는', rom: 'neun',  wEn: 'topic marker' },
+      { char: '의', rom: 'ui',    wEn: 'of (possessive)' },
+      { char: '에', rom: 'e',     wEn: 'at / to / in' },
+      { char: '가', rom: 'ga',    wEn: 'subject marker' },
+      { char: '을', rom: 'eul',   wEn: 'object marker' },
+      { char: '고', rom: 'go',    wEn: 'and / connector' },
+      { char: '도', rom: 'do',    wEn: 'also / way / province' },
+      { char: '서', rom: 'seo',   wEn: 'from / at' },
+      { char: '지', rom: 'ji',    wEn: 'verb ending' },
+      { char: '들', rom: 'deul',  wEn: 'plural marker' },
+      { char: '게', rom: 'ge',    wEn: 'adverbial ending' },
+      { char: '면', rom: 'myeon', wEn: 'if (conditional)' },
+      { char: '만', rom: 'man',   wEn: 'only / 10,000' },
+      { char: '라', rom: 'ra',    wEn: 'imperative ending' },
+      { char: '나', rom: 'na',    wEn: 'I / or' },
+      { char: '야', rom: 'ya',    wEn: 'casual particle' },
+      { char: '와', rom: 'wa',    wEn: 'and (with vowels)' },
+      { char: '까', rom: 'kka',   wEn: 'question particle' },
+      { char: '하', rom: 'ha',    wEn: 'to do (verb stem)' },
+      { char: '한', rom: 'han',   wEn: 'one / Korea' },
+      { char: '어', rom: 'eo',    wEn: 'language / verb stem' },
+      { char: '사', rom: 'sa',    wEn: 'company / four / thing' },
+      { char: '자', rom: 'ja',    wEn: "let's / person" },
+      { char: '기', rom: 'gi',    wEn: 'nominalizer' },
+      { char: '아', rom: 'a',     wEn: 'ah! / vowel placeholder' },
+      { char: '인', rom: 'in',    wEn: 'person' },
+      { char: '적', rom: 'jeok',  wEn: '-like / -ish suffix' },
+      { char: '그', rom: 'geu',   wEn: 'that / he' },
+      { char: '시', rom: 'si',    wEn: 'time / hour / city' },
+      { char: '부', rom: 'bu',    wEn: 'department / -ness' },
+      { char: '보', rom: 'bo',    wEn: 'to see' },
+      { char: '일', rom: 'il',    wEn: 'one / day / work' },
+      { char: '수', rom: 'su',    wEn: 'number / can / water' },
+      { char: '생', rom: 'saeng', wEn: 'life / student' },
+      { char: '안', rom: 'an',    wEn: 'inside / not' },
+      { char: '정', rom: 'jeong', wEn: 'feeling / proper' },
+      { char: '화', rom: 'hwa',   wEn: 'fire / flower / picture' },
+      { char: '무', rom: 'mu',    wEn: 'nothing / radish' },
+      { char: '신', rom: 'sin',   wEn: 'new / god / shoe' },
+      { char: '동', rom: 'dong',  wEn: 'east / movement' },
+      { char: '학', rom: 'hak',   wEn: 'study / learning' },
+      { char: '말', rom: 'mal',   wEn: 'word / horse / end' },
+      { char: '공', rom: 'gong',  wEn: 'public / zero / ball' },
+      { char: '위', rom: 'wi',    wEn: 'above / position' },
+      { char: '분', rom: 'bun',   wEn: 'minute / person (hon.)' },
+      { char: '진', rom: 'jin',   wEn: 'true / progress' },
+      { char: '명', rom: 'myeong',wEn: 'name / famous' },
+      { char: '미', rom: 'mi',    wEn: 'beauty / not yet' },
+      { char: '회', rom: 'hoe',   wEn: 'meeting / company' },
+      { char: '점', rom: 'jeom',  wEn: 'point / shop' },
+      { char: '력', rom: 'ryeok', wEn: 'power' },
+      { char: '요', rom: 'yo',    wEn: 'polite ending' },
+      { char: '발', rom: 'bal',   wEn: 'foot / departure' },
+      { char: '합', rom: 'hap',   wEn: 'to combine' },
+      { char: '비', rom: 'bi',    wEn: 'rain / non-' },
+      { char: '산', rom: 'san',   wEn: 'mountain' },
+      { char: '행', rom: 'haeng', wEn: 'to go / row' },
+      { char: '작', rom: 'jak',   wEn: 'to make / small' },
+      { char: '운', rom: 'un',    wEn: 'fortune / luck' },
+      { char: '것', rom: 'geot',  wEn: 'thing' },
+      { char: '노', rom: 'no',    wEn: 'labor' },
+      { char: '강', rom: 'gang',  wEn: 'river / strong' },
+      { char: '출', rom: 'chul',  wEn: 'to exit' },
+      { char: '영', rom: 'yeong', wEn: 'English / forever' },
+      { char: '조', rom: 'jo',    wEn: 'morning / pre-' },
+      { char: '성', rom: 'seong', wEn: 'surname / castle' },
+      { char: '우', rom: 'u',     wEn: 'right / friend' },
+      { char: '남', rom: 'nam',   wEn: 'south / male' },
+      { char: '직', rom: 'jik',   wEn: 'job / direct' },
+      { char: '형', rom: 'hyeong',wEn: 'older brother (m)' },
+      { char: '재', rom: 'jae',   wEn: 'again / wealth' },
+      { char: '본', rom: 'bon',   wEn: 'origin / book' },
+      { char: '표', rom: 'pyo',   wEn: 'ticket / chart' },
+      { char: '결', rom: 'gyeol', wEn: 'to decide' },
+      { char: '활', rom: 'hwal',  wEn: 'active / bow' },
+      { char: '음', rom: 'eum',   wEn: 'sound / um...' },
+      { char: '항', rom: 'hang',  wEn: 'always / port' },
+      { char: '식', rom: 'sik',   wEn: 'food / formula' },
+      { char: '처', rom: 'cheo',  wEn: 'place / wife' },
+      { char: '단', rom: 'dan',   wEn: 'but / single' },
+      { char: '입', rom: 'ip',    wEn: 'mouth / to enter' },
+      { char: '등', rom: 'deung', wEn: 'etc / rank' },
+      { char: '관', rom: 'gwan',  wEn: 'relation / pipe' },
+      { char: '청', rom: 'cheong',wEn: 'blue / clear' },
+      { char: '천', rom: 'cheon', wEn: 'thousand / heaven' },
+      { char: '후', rom: 'hu',    wEn: 'after' },
+      { char: '십', rom: 'sip',   wEn: 'ten' },
+      { char: '권', rom: 'gwon',  wEn: 'right / volume' },
+      { char: '색', rom: 'saek',  wEn: 'color' },
+      { char: '약', rom: 'yak',   wEn: 'medicine / about' },
+      { char: '백', rom: 'baek',  wEn: 'hundred / white' },
+      { char: '양', rom: 'yang',  wEn: 'amount / sheep' },
+      { char: '책', rom: 'chaek', wEn: 'book' },
+      { char: '전', rom: 'jeon',  wEn: 'before / war' },
+      { char: '살', rom: 'sal',   wEn: 'to live / age' },
+      { char: '별', rom: 'byeol', wEn: 'star' },
+      { char: '과', rom: 'gwa',   wEn: 'subject / and (cons.)' },
+      { char: '교', rom: 'gyo',   wEn: 'school' },
+    ],
+  },
+];
+
+// ── Audio ─────────────────────────────────────────────────────────────────────
+
+let litEl        = null;
+let litBtn       = null;
+let focusTimeout = null;
+let currentAudio = null;
+let sylOverlay   = null;
+
+function closeSyllableOverlay() {
+  clearTimeout(focusTimeout);
+  if (!sylOverlay) return;
+  const o = sylOverlay;
+  sylOverlay = null;
+  o.classList.remove('visible');
+  setTimeout(() => { if (o.parentNode) o.remove(); }, 350);
+}
+
+function showSyllableOverlay(syllable, jamoTargets) {
+  closeSyllableOverlay();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'syl-overlay';
+
+  // Source syllable card (centered, big)
+  const src = document.createElement('div');
+  src.className = 'syl-source';
+  const srcGlyph = document.createElement('div');
+  srcGlyph.className = 'glyph';
+  srcGlyph.textContent = syllable;
+  const srcRom = document.createElement('div');
+  srcRom.className = 'romanized';
+  srcRom.textContent = jamoTargets.map(t => t.jamo).join(' + ');
+  src.appendChild(srcGlyph);
+  src.appendChild(srcRom);
+
+  const arrow = document.createElement('div');
+  arrow.className = 'syl-arrow';
+  arrow.textContent = '↓';
+
+  const row = document.createElement('div');
+  row.className = 'syl-jamo-row';
+  jamoTargets.forEach(({ jamo, card: targetCard }) => {
+    const tc = document.createElement('div');
+    tc.className = 'card';
+    tc.title = `Jump to lesson card for ${jamo}`;
+
+    const g = document.createElement('div');
+    g.className = 'glyph';
+    g.textContent = jamo;
+    g.style.cursor = 'pointer';
+
+    const r = document.createElement('div');
+    r.className = 'romanized';
+    r.textContent = targetCard.querySelector('.romanized').textContent;
+
+    tc.appendChild(g);
+    tc.appendChild(r);
+    tc.addEventListener('click', e => {
+      e.stopPropagation();
+      closeSyllableOverlay();
+      targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetCard.classList.add('highlight');
+      setTimeout(() => targetCard.classList.remove('highlight'), 2000);
+    });
+    row.appendChild(tc);
+  });
+
+  overlay.appendChild(src);
+  overlay.appendChild(arrow);
+  overlay.appendChild(row);
+
+  // Click outside the cards to dismiss
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeSyllableOverlay();
+  });
+
+  document.body.appendChild(overlay);
+  sylOverlay = overlay;
+  requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('visible')));
+
+  // Auto-dismiss after 3 seconds
+  focusTimeout = setTimeout(closeSyllableOverlay, 3000);
+}
+
+// Web Speech API kept only as last-resort fallback
+const synth = window.speechSynthesis;
+let _voices = [];
+function loadVoices() { _voices = synth ? synth.getVoices() : []; }
+if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; }
+
+function clearLit() {
+  if (litEl)  litEl.classList.remove('lit');
+  if (litBtn) litBtn.classList.remove('active');
+  litEl = litBtn = null;
+}
+
+function hexStem(text) {
+  return [...text].map(c => c.codePointAt(0).toString(16).padStart(4, '0')).join('_');
+}
+
+function speak(text, highlightEl, btnEl, onEnd) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if (synth) synth.cancel();
+  clearLit();
+
+  litEl = highlightEl;
+  litBtn = btnEl;
+  highlightEl.classList.add('lit');
+  if (btnEl) btnEl.classList.add('active');
+
+  const done = () => {
+    highlightEl.classList.remove('lit');
+    if (btnEl) btnEl.classList.remove('active');
+    if (litEl === highlightEl) litEl = null;
+    if (litBtn === btnEl)      litBtn = null;
+    if (onEnd) onEnd();
+  };
+
+  const stem = hexStem(text);
+  // Priority: local native ogg → local mp3 → Wikimedia native speaker → Web Speech fallback
+  const urls = [
+    `assets/audio/${stem}_native.ogg`,
+    `assets/audio/${stem}.mp3`,
+    `https://commons.wikimedia.org/wiki/Special:FilePath/Ko-${encodeURIComponent(text)}.ogg`,
+  ];
+
+  let i = 0;
+  function tryNext() {
+    if (i >= urls.length) {
+      // Last resort: Web Speech API
+      if (!synth) { done(); return; }
+      synth.cancel();
+      setTimeout(() => {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang  = 'ko-KR';
+        u.rate  = 0.82;
+        const ko = _voices.find(v => v.lang === 'ko-KR') || _voices.find(v => v.lang.startsWith('ko'));
+        if (ko) u.voice = ko;
+        u.onend = done; u.onerror = done;
+        synth.speak(u);
+      }, 50);
+      return;
+    }
+    const url = urls[i++];
+    const a = new Audio(url);
+    currentAudio = a;
+    a.onended = () => { currentAudio = null; done(); };
+    // Guard: onerror and play().catch() can both fire for the same failure.
+    // Only advance to the next URL once.
+    let advanced = false;
+    const advance = () => { if (!advanced) { advanced = true; tryNext(); } };
+    a.onerror = advance;
+    a.play().catch(advance);
+  }
+
+  tryNext();
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+
+function buildCard(c) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.char = c.char;
+
+  const glyph = document.createElement('div');
+  glyph.className = 'glyph';
+  glyph.textContent = c.char;
+
+  const rom = document.createElement('div');
+  rom.className = 'romanized';
+  rom.textContent = c.rom;
+
+  glyph.addEventListener('click', e => {
+    e.stopPropagation();
+    speak(c.char, glyph, null);
+  });
+
+  // Loan-word style: no separate example word — the loan word itself IS the example.
+  // Mark the card so linkWords() can turn each syllable into a jump-to-jamo link.
+  // The whole card is clickable — wlink spans stopPropagation so syllable clicks
+  // navigate while clicks elsewhere on the card play the full word's audio.
+  if (!c.word) {
+    card.classList.add('loan-card');
+    glyph.dataset.word = c.char;
+    const meaning = document.createElement('div');
+    meaning.className = 'word-en';
+    meaning.textContent = c.wEn;
+    meaning.style.marginTop = '14px';
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => speak(c.char, glyph, null));
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.textContent = '⎘';
+    copyBtn.title = `Copy "${c.char}"`;
+    copyBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      try {
+        await navigator.clipboard.writeText(c.char);
+        copyBtn.classList.add('copied');
+        copyBtn.textContent = '✓';
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.textContent = '⎘';
+        }, 1200);
+      } catch (_) {}
+    });
+
+    card.appendChild(copyBtn);
+    card.appendChild(glyph);
+    card.appendChild(rom);
+    card.appendChild(meaning);
+    return card;
+  }
+
+  const divider = document.createElement('div');
+  divider.className = 'divider';
+
+  const word = document.createElement('div');
+  word.className = 'word';
+  word.dataset.word = c.word;
+
+  const wordEn = document.createElement('div');
+  wordEn.className = 'word-en';
+  wordEn.textContent = c.wEn;
+
+  word.addEventListener('click', e => {
+    e.stopPropagation();
+    speak(c.word, word, null);
+  });
+
+  // Click anywhere on the card (outside glyph/word/wlinks) plays char then word.
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    speak(c.char, glyph, null, () => {
+      setTimeout(() => speak(c.word, word, null), 280);
+    });
+  });
+
+  card.appendChild(glyph);
+  card.appendChild(rom);
+  card.appendChild(divider);
+  card.appendChild(word);
+  card.appendChild(wordEn);
+
+  return card;
+}
+
+// Decompose a Korean syllable block into cho (initial consonant index 0-18),
+// jung (vowel index 0-20), jong (final consonant index 0-27, 0=none).
+function decompose(ch) {
+  const code = ch.charCodeAt(0) - 0xAC00;
+  if (code < 0 || code > 11171) return null;
+  return {
+    cho:  Math.floor(code / 588),
+    jung: Math.floor((code % 588) / 28),
+    jong: code % 28,
+  };
+}
+
+// Hangul jamo characters by index. cho and jong share Unicode codepoints for
+// matching letters (e.g., cho ㄱ U+3131 == jong ㄱ U+3131), so a single jamo
+// → card map serves both initial and final lookups.
+const CHO_JAMO  = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JUNG_JAMO = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+const JONG_JAMO = [null,'ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+
+function linkWords() {
+  const charMap   = {}; // exact syllable/word → card
+  const jamoToCard = {}; // single jamo char ('ㄱ','ㅏ','ㅎ',…) → teaching card
+
+  document.querySelectorAll('.card[data-char]').forEach(card => {
+    const raw = card.dataset.char;
+    if (!charMap[raw]) charMap[raw] = card;
+
+    if ([...raw].length !== 1) return;
+    const d = decompose(raw);
+    if (!d) return;
+
+    const rom = card.querySelector('.romanized')?.textContent || '';
+
+    if (d.cho === 11) {
+      // ㅇ-initial syllable. Lesson 2's 아 (rom='silent') teaches the silent ㅇ;
+      // every other ㅇ-initial card teaches its vowel.
+      if (rom === 'silent') {
+        if (!jamoToCard['ㅇ']) jamoToCard['ㅇ'] = card;
+      } else {
+        const j = JUNG_JAMO[d.jung];
+        if (j && !jamoToCard[j]) jamoToCard[j] = card;
+      }
+    } else {
+      const j = CHO_JAMO[d.cho];
+      if (j && !jamoToCard[j]) jamoToCard[j] = card;
+    }
+  });
+
+  document.querySelectorAll('[data-word]').forEach(wordEl => {
+    const text     = wordEl.dataset.word;
+    const card     = wordEl.closest('.card');
+    const isLoan   = card.classList.contains('loan-card');
+    // Loan-word cards: every syllable links to its consonant/vowel teaching card,
+    // so don't filter by ownChars (the loan word itself is the data-char).
+    const ownChars = isLoan ? new Set() : new Set([...card.dataset.char]);
+
+    wordEl.innerHTML = '';
+    [...text].forEach(ch => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+
+      if (!ownChars.has(ch)) {
+        // Decompose the syllable into its jamo and resolve every jamo (initial,
+        // vowel, final) to its teaching card.
+        const d = decompose(ch);
+        const jamoTargets = [];
+        if (d) {
+          const choJ  = CHO_JAMO[d.cho];
+          const jungJ = JUNG_JAMO[d.jung];
+          const jongJ = d.jong > 0 ? JONG_JAMO[d.jong] : null;
+          [choJ, jungJ, jongJ].forEach(j => {
+            if (!j) return;
+            const t = jamoToCard[j];
+            if (t) jamoTargets.push({ jamo: j, card: t });
+          });
+        }
+        // Fall back to whole-syllable lookup for non-loan cards (e.g., 한국 in lesson 7).
+        const fallback = !isLoan && jamoTargets.length === 0 ? charMap[ch] : null;
+        if (fallback) jamoTargets.push({ jamo: ch, card: fallback });
+
+        if (jamoTargets.length > 0) {
+          span.className = 'wlink';
+          span.title = jamoTargets.map(t => t.jamo).join(' + ');
+          span.addEventListener('click', e => {
+            e.stopPropagation();
+            showSyllableOverlay(ch, jamoTargets);
+            setTimeout(() => speak(ch, span, null), 120);
+          });
+        }
+      }
+
+      wordEl.appendChild(span);
+    });
+  });
+}
+
+function render() {
+  const main = document.getElementById('main');
+  const nav  = document.getElementById('nav');
+
+  LESSONS.forEach(lesson => {
+    // nav link — clicking expands the target section if collapsed
+    const a = document.createElement('a');
+    a.href = `#lesson-${lesson.n}`;
+    a.textContent = `${lesson.n}. ${lesson.en}`;
+    a.addEventListener('click', () => {
+      document.getElementById(`lesson-${lesson.n}`)?.classList.remove('collapsed');
+    });
+    nav.appendChild(a);
+
+    // section — start collapsed
+    const section = document.createElement('section');
+    section.className = 'lesson collapsed';
+    section.id = `lesson-${lesson.n}`;
+
+    const meta = document.createElement('div');
+    meta.className = 'lesson-meta';
+    meta.innerHTML = `
+      <div class="lesson-meta-left">
+        <div class="lesson-label">LESSON ${lesson.n} <span class="chev">▾</span></div>
+        <h2 class="lesson-title">${lesson.en}</h2>
+        <div class="lesson-kr">${lesson.kr}</div>
+      </div>
+      <p class="lesson-note">${lesson.note}</p>
+    `;
+    meta.addEventListener('click', () => section.classList.toggle('collapsed'));
+
+    const grid = document.createElement('div');
+    grid.className = 'cards';
+    lesson.chars.forEach(c => grid.appendChild(buildCard(c)));
+
+    section.appendChild(meta);
+    section.appendChild(grid);
+    main.appendChild(section);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  render();
+  linkWords();
+
+  document.getElementById('headerToggle').addEventListener('click', function () {
+    const body = document.getElementById('headerCollapsible');
+    const open = body.classList.toggle('open');
+    this.textContent = open ? '▴ intro' : '▾ intro';
+  });
+});
+</script>
+
+</body>
+</html>

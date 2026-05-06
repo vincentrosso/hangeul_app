@@ -1,3 +1,11 @@
+# Secrets / generated voiceover audio
+.env
+narration_audio/
+
+# Local tooling artifacts
+.playwright-mcp/
+.claude/
+
 # Miscellaneous
 *.class
 *.log
